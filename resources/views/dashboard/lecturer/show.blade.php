@@ -5,6 +5,18 @@
 
     <div class="card mb-4">
         <h5 class="card-header">Detail Dosen</h5>
+        <div class="card-body" style="margin-bottom: -20px">
+            <div class="d-flex flex-column align-items-start gap-4">
+                <label for="foto" class="form-label" style="margin-bottom: -10px">Foto</label>
+                @if ($lecturer->user->photo == null)
+                    <p class="border p-5 rounded"  style="margin-bottom: -15px">Tidak Ada Foto</p>
+                @else
+                <img src="{{ asset('storage/images/profile-photo/' . $lecturer->user->photo) }}"
+                    alt="{{ $lecturer->fullname }}" class="d-block rounded w-100 h-100"
+                    id="foto" />
+                @endif
+            </div>
+        </div>
         <div class="card-body">
             <div class="row">
                 <div class="mb-3 col-md-12">
