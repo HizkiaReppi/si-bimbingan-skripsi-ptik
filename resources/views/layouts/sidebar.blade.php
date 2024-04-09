@@ -64,17 +64,11 @@
                 <div data-i18n="Mahasiswa">Mahasiswa</div>
             </a>
         </li>
-        {{-- <li class="menu-item {{ request()->routeIs('dashboard.kajur.*') ? 'active' : '' }}">
+         <li class="menu-item {{ request()->routeIs('dashboard.kajur.*') ? 'active' : '' }}">
             <a href="{{ route('dashboard.kajur.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons fa-solid fa-user-graduate"></i>
                 <div data-i18n="Kajur">Ketua Jurusan</div>
             </a>
         </li>
-        <li class="menu-item {{ request()->routeIs('dashboard.manajemen-bimbingan.*') ? 'active' : '' }}">
-            <a href="{{ route('dashboard.manajemen-bimbingan.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons fa-solid fa-list-check"></i>
-                <div data-i18n="Manajemen Bimbingan">Manajemen Bimbingan</div>
-            </a>
-        </li> --}}
     </ul>
 </aside>
