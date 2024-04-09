@@ -48,6 +48,47 @@
                         value="{{ $lecturer->type }}" readonly />
                 </div>
             </div>
+            <hr>
+            <div>
+                <h5>Daftar Mahasiswa Bimbingan</h5>
+                <div class="table-responsive text-nowrap">
+                    <table class="table" id="table">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Nama</th>
+                                <th class="text-center">NIM</th>
+                                <th class="text-center">Angkatan</th>
+                                <th class="text-center">Konsentrasi</th>
+                                <th class="text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-border-bottom-0">
+                            @foreach ($students as $student)
+                                <tr>
+                                    <td class="fw-medium">{{ $student->user->name }}</td>
+                                    <td class="text-center">{{ $student->nim }}</td>
+                                    <td class="text-center">{{ $student->batch }}</td>
+                                    <td class="text-center">{{ $student->concentration }}</td>
+                                    <td class="d-flex justify-content-center">
+                                        <div class="dropdown">
+                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                data-bs-toggle="dropdown">
+                                                <i class="bx bx-dots-vertical-rounded"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item"
+                                                    href="{{ route('dashboard.student.show', $student->id) }}">
+                                                    <i class="bx bxs-user-detail me-1"></i> Detail
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
         <!-- /Account -->
         <div class="d-flex mb-4 ms-3" style="margin-top: -15px">

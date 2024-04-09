@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LecturerStoreRequest;
 use App\Http\Requests\LecturerUpdateRequest;
 use App\Models\Lecturer;
+use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
@@ -83,7 +84,8 @@ class LecturerController extends Controller
         $text = "Anda tidak akan bisa mengembalikannya!";
         confirmDelete($title, $text);
 
-        return view('dashboard.lecturer.show', compact('lecturer'));
+        $students = Student::where('lecturer_id', $lecturer->id)->get();
+        return view('dashboard.lecturer.show', compact('lecturer', 'students'));
     }
 
     /**
