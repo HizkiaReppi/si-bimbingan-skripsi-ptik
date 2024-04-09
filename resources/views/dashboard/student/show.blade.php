@@ -8,10 +8,10 @@
         <div class="card-body" style="margin-bottom: -20px">
             <div class="d-flex flex-column align-items-start gap-4">
                 <label for="foto" class="form-label" style="margin-bottom: -10px">Foto</label>
-                @if ($student->photo == null)
+                @if ($student->user->photo == null)
                     <p class="border p-5 rounded"  style="margin-bottom: -15px">Tidak Ada Foto</p>
                 @else
-                <img src="{{ asset('storage/images/profile-photo/' . $student->photo) }}"
+                <img src="{{ asset('storage/images/profile-photo/' . $student->user->photo) }}"
                     alt="{{ $student->fullname }}" class="d-block rounded w-100 h-100"
                     id="foto" />
                 @endif
