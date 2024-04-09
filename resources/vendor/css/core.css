@@ -17111,7 +17111,7 @@ html:not(.layout-menu-fixed) .menu-inner-shadow {
   height: 3.875rem;
   flex-wrap: nowrap;
   color: #697a8d;
-  z-index: 2;
+  z-index: 1;
 }
 .layout-navbar .navbar {
   transform: translate3d(0, 0, 0);

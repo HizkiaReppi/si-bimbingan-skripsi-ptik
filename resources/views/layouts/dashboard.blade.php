@@ -75,7 +75,7 @@
       <div class="layout-overlay layout-menu-toggle"></div>
     </div>
 
-    {{-- @include('sweetalert::alert') --}}
+    @include('sweetalert::alert')
 
     @vite(['resources/vendor/libs/jquery/jquery.js', 'resources/vendor/libs/popper/popper.js', 'resources/vendor/js/bootstrap.js', 'resources/vendor/libs/perfect-scrollbar/perfect-scrollbar.js', 'resources/vendor/js/menu.js', 'resources/vendor/libs/apex-charts/apexcharts.js', 'resources/js/main.js', 'resources/js/dashboards-analytics.js'])
 

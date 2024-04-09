@@ -46,25 +46,19 @@
     <div class="menu-inner-shadow"></div>
 
     <ul class="menu-inner py-1">
-        <li class="menu-item active">
-            <a href="/" class="menu-link">
-                <i class="menu-icon tf-icons fa-solid fa-list-check"></i>
-                <div data-i18n="Bimbingan">Bimbingan</div>
-            </a>
-        </li>
         {{-- <li class="menu-item {{ request()->routeIs('dashboard.bimbingan.*') ? 'active' : '' }}">
             <a href="{{ route('dashboard.bimbingan.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons fa-solid fa-list-check"></i>
                 <div data-i18n="Bimbingan">Bimbingan</div>
             </a>
-        </li>
-        <li class="menu-item {{ request()->routeIs('dashboard.dosen.*') ? 'active' : '' }}">
-            <a href="{{ route('dashboard.dosen.index') }}" class="menu-link">
+        </li> --}}
+        <li class="menu-item {{ request()->routeIs('dashboard.lecturer.*') ? 'active' : '' }}">
+            <a href="{{ route('dashboard.lecturer.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons fa-solid fa-chalkboard-user"></i>
                 <div data-i18n="Dosen">Dosen</div>
             </a>
         </li>
-        <li class="menu-item {{ request()->routeIs('dashboard.mahasiswa.*') ? 'active' : '' }}">
+        {{-- <li class="menu-item {{ request()->routeIs('dashboard.mahasiswa.*') ? 'active' : '' }}">
             <a href="{{ route('dashboard.mahasiswa.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons fa-solid fa-user"></i>
                 <div data-i18n="Mahasiswa">Mahasiswa</div>
