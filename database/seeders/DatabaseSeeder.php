@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Lecturer;
+use App\Models\Student;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -36,7 +37,7 @@ class DatabaseSeeder extends Seeder
                 'id' => $uuid,
                 'name' => Factory::create()->name(),
                 'username' => $nidn,
-                'email' => $nidn . '@gmail.com',
+                'email' => $nidn . '@unima.ac.id',
                 'password' => bcrypt($nidn),
                 'role' => 'lecturer',
             ]);
@@ -53,5 +54,42 @@ class DatabaseSeeder extends Seeder
                 'phone_number' => '08' . sprintf('%09d', $i),
             ]);
         }
+
+        $lecturers = Lecturer::all()->shuffle();
+
+        for ($i = 1; $i <= 10; $i++) {
+            $nim = '21208' . sprintf('%03d', $i);
+            $uuid = Str::uuid();
+            $user = User::create([
+                'id' => $uuid,
+                'name' => Factory::create()->name(),
+                'email' => $nim . '@unima.ac.id',
+                'username' => $nim,
+                'password' => bcrypt($nim),
+                'role' => 'student',
+            ]);
+
+            $supervisor = $lecturers->random()->getAttributes();
+
+            Student::create([
+                'id' => Factory::create()->uuid(),
+                'user_id' => $uuid,
+                'lecturer_id' => $supervisor['id'],
+                'nim' => $nim,
+                'batch' => 2021,
+                'concentration' => $this->randomKonsentrasi(),
+            ]);
+        }
+    }
+
+    /**
+     * Generate random konsentrasi.
+     *
+     * @return string
+     */
+    private function randomKonsentrasi()
+    {
+        $konsentrasiOptions = ['RPL', 'TKJ', 'Multimedia'];
+        return collect($konsentrasiOptions)->random();
     }
 }
