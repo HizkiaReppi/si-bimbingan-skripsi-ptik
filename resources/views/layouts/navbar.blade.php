@@ -11,7 +11,11 @@
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-                        <img src="https://eu.ui-avatars.com/api/?name=John+Doe&size=250" class="w-px-40 h-auto rounded-circle" />
+                        @if (Auth::user()->photo)
+                            <img src="{{ asset('storage/images/profile-photo/' . Auth::user()->photo) }}" class="w-px-40 h-auto rounded-circle" alt="{{ Auth::user()->name }}" />
+                        @else
+                            <img src="https://eu.ui-avatars.com/api/?name={{ Auth::user()->name }}&size=250" class="w-px-40 h-auto rounded-circle" alt="{{ Auth::user()->name }}" />
+                        @endif
                     </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
@@ -24,8 +28,14 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1">
-                                    <span class="fw-medium d-block">John Doe</span>
-                                    <small class="text-muted">Admin</small>
+                                    <span class="fw-medium d-block">{{ auth()->user()->name }}</span>
+                                    @if (auth()->user()->role == 'lecturer')
+                                        <small class="text-muted">{{ auth()->user()->lecturer->nidn }}</small>
+                                    @elseif (auth()->user()->role == 'student')
+                                        <small class="text-muted">{{ auth()->user()->student->nim }}</small>
+                                    @else 
+                                        <small class="text-muted text-capitalize">{{ auth()->user()->role }}</small>
+                                    @endif
                                 </div>
                             </div>
                         </a>
@@ -46,7 +56,7 @@
                             <form class="dropdown-item" method="POST" action="/logout">
                                 @csrf
                                 
-                                <button type="submit">
+                                <button type="submit" class="btn p-0">
                                     <i class="bx bx-power-off me-2"></i>
                                     <span class="align-middle">Log Out</span>
                                 </button>
