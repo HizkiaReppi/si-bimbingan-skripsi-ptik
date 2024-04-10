@@ -4,6 +4,7 @@ use App\Http\Controllers\GuidanceController;
 use App\Http\Controllers\HeadOfDepartementController;
 use App\Http\Controllers\LecturerController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SetGuidanceController;
 use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/student', StudentController::class)->names('dashboard.student');
     Route::resource('/kajur', HeadOfDepartementController::class)->names('dashboard.kajur');
     Route::resource('/bimbingan', GuidanceController::class)->names('dashboard.bimbingan');
+    Route::resource('/atur-jadwal-bimbingan', SetGuidanceController::class)->names('dashboard.atur-jadwal-bimbingan');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

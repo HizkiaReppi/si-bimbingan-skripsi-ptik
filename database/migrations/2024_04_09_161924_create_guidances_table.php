@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('thesis_file_review')->nullable()->default(null);
             $table->text('lecturer_notes')->nullable()->default(null);
             $table->dateTime('schedule');
+            $table->unsignedInteger('guidance_number')->default(1);
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->timestamps();
         });

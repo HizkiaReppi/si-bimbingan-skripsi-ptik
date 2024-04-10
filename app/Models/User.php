@@ -61,7 +61,7 @@ class User extends Authenticatable
     /**
      * Get the lecturer record associated with the user.
      */
-    public function dosen(): HasOne
+    public function lecturer(): HasOne
     {
         return $this->hasOne(Lecturer::class);
     }

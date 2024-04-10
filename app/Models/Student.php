@@ -62,6 +62,27 @@ class Student extends Model
     }
 
     /**
+     * Get the thesis title of the student.
+     */
+    public function getThesisTitleAttribute(): string
+    {
+        $guidance = $this->guidance->last();
+        if ($guidance) {
+            return $guidance->thesis_title;
+        }
+
+        return 'Belum Ada Judul Skripsi';
+    }
+
+    /**
+     * Get the count of guidance for the student.
+     */
+    public function getGuidanceCountAttribute(): int
+    {
+        return $this->guidance->count();
+    }
+
+    /**
      * Get the fullname of student.
      */
     public function getFullnameAttribute(): string
