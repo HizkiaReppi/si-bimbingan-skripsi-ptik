@@ -28,7 +28,17 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        if(Auth::user()->role == 'admin'){
+            return redirect()->intended(route('dashboard', absolute: false));
+        } else if(Auth::user()->role == 'lecturer'){
+            return redirect()->intended(route('dashboard.atur-jadwal-bimbingan.index', absolute: false));
+        } else if(Auth::user()->role == 'student'){
+            return redirect()->intended(route('dashboard.bimbingan.index', absolute: false));
+        } else if(Auth::user()->role == 'HoD'){
+            return redirect()->intended(route('dashboard.bimbingan.index', absolute: false));
+        } else {
+            return redirect()->intended(route('dashboard', absolute: false));
+        }
     }
 
     /**
@@ -42,6 +52,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/login');
     }
 }

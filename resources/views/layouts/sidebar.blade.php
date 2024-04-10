@@ -46,6 +46,12 @@
     <div class="menu-inner-shadow"></div>
 
     <ul class="menu-inner py-1">
+        <li class="menu-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+            <a href="{{ route('dashboard') }}" class="menu-link">
+                <i class="menu-icon tf-icons fa-solid fa-list-check"></i>
+                <div data-i18n="Bimbingan">Dashboard</div>
+            </a>
+        </li>
         <li class="menu-item {{ request()->routeIs('dashboard.bimbingan.*') ? 'active' : '' }}">
             <a href="{{ route('dashboard.bimbingan.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons fa-solid fa-list-check"></i>
