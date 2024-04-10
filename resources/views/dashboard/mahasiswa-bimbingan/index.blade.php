@@ -11,23 +11,25 @@
             <table class="table" id="table">
                 <thead>
                     <tr>
-                        <th class="text-center" style="width: 50px">NIM</th>
-                        <th class="text-center">Nama Mahasiswa</th>
+                        <th class="text-center">NIM</th>
+                        <th class="text-center">Nama Lengkap</th>
                         <th class="text-center">Angkatan</th>
-                        <th class="text-center" style="width: 50px">Judul Skripsi</th>
+                        <th class="text-center">Konsentrasi</th>
+                        <th class="text-center">Judul Skripsi</th>
                         <th class="text-center">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
                     @foreach ($students as $student)
                         <tr>
-                            <td class="fw-medium" style="width: 50px">{{ $student->nim }}</td>
-                            <td>{{ $student->fullname }}</td>
+                            <td class="text-center fw-medium">{{ $student->nim }}</td>
+                            <td class="text-nowrap">{{ $student->fullname }}</td>
                             <td class="text-center">{{ $student->batch }}</td>
-                            <td style="width: 50px">{{ $student->thesisTitle }}</td>
+                            <td class="text-center">{{ $student->concentration }}</td>
+                            <td class="text-justify">{{ $student->thesisTitle }}</td>
                             <td class="text-center">
                                 <a class="dropdown-item"
-                                    href="{{ route('dashboard.atur-jadwal-bimbingan.show', $student->id) }}">
+                                    href="{{ route('dashboard.mahasiswa-bimbingan.show', $student->id) }}">
                                     Detail
                                 </a>
                             </td>

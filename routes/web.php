@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GuidanceActivityController;
 use App\Http\Controllers\GuidanceController;
+use App\Http\Controllers\GuidedStudentController;
 use App\Http\Controllers\HeadOfDepartementController;
 use App\Http\Controllers\LecturerController;
 use App\Http\Controllers\ProfileController;
@@ -21,6 +22,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('/student', StudentController::class)->names('dashboard.student');
     Route::resource('/kajur', HeadOfDepartementController::class)->names('dashboard.kajur');
     Route::resource('/bimbingan', GuidanceController::class)->names('dashboard.bimbingan');
+
+    Route::get('/mahasiswa-bimbingan', [GuidedStudentController::class, 'index'])->name('dashboard.mahasiswa-bimbingan.index');
+    Route::get('/mahasiswa-bimbingan/{mahasiswa_bimbingan}', [GuidedStudentController::class, 'show'])->name('dashboard.mahasiswa-bimbingan.show');
 
     Route::get('/atur-jadwal-bimbingan', [SetGuidanceController::class, 'index'])->name('dashboard.atur-jadwal-bimbingan.index');
     Route::get('/atur-jadwal-bimbingan/{atur_jadwal_bimbingan}', [SetGuidanceController::class, 'show'])->name('dashboard.atur-jadwal-bimbingan.show');
