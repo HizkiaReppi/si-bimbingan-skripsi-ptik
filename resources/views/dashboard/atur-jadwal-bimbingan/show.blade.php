@@ -4,9 +4,26 @@
     </x-slot>
 
     <div class="card mb-4">
-        <h5 class="card-header">Detail Bimbingan</h5>
+        <h5 class="card-header">Detail Bimbingan Ke {{ $atur_jadwal_bimbingan->guidance_number }}</h5>
         <div class="card-body">
             <div class="row">
+                <div class="mb-2 col-md-6">
+                    <label for="judul-skripsi" class="form-label">Nama Mahasiswa</label>
+                    <p class="border p-2 rounded">{{ $atur_jadwal_bimbingan->student->fullname }}</p>
+                </div>
+                <div class="mb-2 col-md-6">
+                    <label for="judul-skripsi" class="form-label">NIM</label>
+                    <p class="border p-2 rounded">{{ $atur_jadwal_bimbingan->student->nim }}</p>
+                </div>
+                <div class="mb-2 col-md-6">
+                    <label for="judul-skripsi" class="form-label">Angkatan</label>
+                    <p class="border p-2 rounded">{{ $atur_jadwal_bimbingan->student->batch }}</p>
+                </div>
+                <div class="mb-2 col-md-6">
+                    <label for="judul-skripsi" class="form-label">Konsentrasi</label>
+                    <p class="border p-2 rounded">{{ $atur_jadwal_bimbingan->student->concentration }}</p>
+                </div>
+                <hr>
                 <div class="mb-2">
                     <label for="judul-skripsi" class="form-label">Judul Skripsi</label>
                     <p class="border p-2 rounded text-justify">{{ $atur_jadwal_bimbingan->thesis_title }}</p>

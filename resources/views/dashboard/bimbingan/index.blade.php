@@ -12,6 +12,7 @@
             <table class="table" id="table">
                 <thead>
                     <tr>
+                        <th class="text-center">Bimbingan Ke</th>
                         <th class="text-center" style="width: 50px">Judul Skripsi</th>
                         <th class="text-center">Topik Bimbingan</th>
                         <th class="text-center">Tanggal Bimbingan</th>
@@ -22,6 +23,7 @@
                 <tbody class="table-border-bottom-0">
                     @foreach ($guidances as $guidance)
                         <tr>
+                            <td class="text-center">{{ $guidance->guidance_number }}</td>
                             <td class="fw-medium" style="width: 50px">{{ $guidance->thesis_title }}</td>
                             <td class="fw-medium">{{ $guidance->topic }}</td>
                             <td class="text-center">{{ $guidance->schedule }}</td>

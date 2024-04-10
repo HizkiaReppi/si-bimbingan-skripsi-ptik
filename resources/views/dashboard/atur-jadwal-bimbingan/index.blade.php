@@ -15,6 +15,7 @@
                         <th class="text-center">Nama</th>
                         <th class="text-center">Topik Bimbingan</th>
                         <th class="text-center">Jadwal Yang Diajukan</th>
+                        <th class="text-center">Bimbingan Ke</th>
                         <th class="text-center">Status</th>
                         <th class="text-center">Aksi</th>
                     </tr>
@@ -28,6 +29,7 @@
                                     <td>{{ $g->student->fullname }}</td>
                                     <td class="text-center">{{ $g->topic }}</td>
                                     <td class="text-center">{{ $g->schedule }}</td>
+                                    <td class="text-center">{{ $g->guidance_number }}</td>
                                     @if ($g->status == 'pending')
                                         <td class="text-center text-info">Diajukan</td>
                                     @elseif ($g->status == 'approved')

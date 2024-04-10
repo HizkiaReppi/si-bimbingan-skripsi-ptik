@@ -56,6 +56,7 @@ class GuidanceController extends Controller
 
         try {
             $bimbingan = new Guidance();
+
             $bimbingan->thesis_title = $validatedData['judul-skripsi'];
             $bimbingan->student_id = $student->id;
             $bimbingan->topic = $validatedData['topik'];
@@ -75,6 +76,14 @@ class GuidanceController extends Controller
                 $fileName = time() . '-' . $student->nim . '.' . $file->getClientOriginalExtension();
                 $file->storeAs('public/file/skripsi', $fileName);
                 $bimbingan->thesis_file = $fileName;
+            }
+
+            $existingBimbingan = Guidance::where('student_id', $student->id)->latest()->first();
+
+            if (!$existingBimbingan || $existingBimbingan->guidance_number == null) {
+                $bimbingan->guidance_number = 1;
+            } else {
+                $bimbingan->guidance_number = $existingBimbingan->guidance_number + 1;
             }
 
             $bimbingan->save();
