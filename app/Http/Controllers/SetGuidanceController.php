@@ -8,9 +8,16 @@ use App\Models\Student;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class SetGuidanceController extends Controller
 {
+    public function __construct()
+    {
+        if (!Gate::allows('lecturer')) {
+            abort(403);
+        }
+    }
     /**
      * Display a listing of the resource.
      */

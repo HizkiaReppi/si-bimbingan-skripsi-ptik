@@ -11,16 +11,24 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Gate;
 
 class LecturerController extends Controller
 {
+    public function __construct()
+    {
+        if (!Gate::allows('admin')) {
+            abort(403);
+        }
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index(): View
     {
         $title = 'Apakah anda yakin?';
-        $text = "Anda tidak akan bisa mengembalikannya!";
+        $text = 'Anda tidak akan bisa mengembalikannya!';
         confirmDelete($title, $text);
 
         $lecturers = Lecturer::all();
@@ -81,7 +89,7 @@ class LecturerController extends Controller
     public function show(Lecturer $lecturer): View
     {
         $title = 'Apakah anda yakin?';
-        $text = "Anda tidak akan bisa mengembalikannya!";
+        $text = 'Anda tidak akan bisa mengembalikannya!';
         confirmDelete($title, $text);
 
         $students = Student::where('lecturer_id', $lecturer->id)->get();
@@ -106,17 +114,17 @@ class LecturerController extends Controller
         DB::beginTransaction();
 
         try {
-            if(isset($validatedData['nidn'])) {
+            if (isset($validatedData['nidn'])) {
                 $lecturer->user->username = $validatedData['nidn'];
                 $lecturer->nidn = $validatedData['nidn'];
                 $lecturer->user->password = Hash::make($validatedData['nidn']);
             }
 
-            if(isset($validatedData['email'])) {
+            if (isset($validatedData['email'])) {
                 $lecturer->user->email = $validatedData['email'];
             }
-            
-            if(isset($validatedData['nip'])) {
+
+            if (isset($validatedData['nip'])) {
                 $lecturer->nip = $validatedData['nip'];
             }
 

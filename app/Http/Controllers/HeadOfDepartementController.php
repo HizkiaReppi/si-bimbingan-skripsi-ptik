@@ -7,23 +7,29 @@ use App\Http\Requests\LecturerUpdateRequest;
 use App\Models\HeadOfDepartement;
 use App\Models\Lecturer;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Gate;
 
 class HeadOfDepartementController extends Controller
 {
+    public function __construct()
+    {
+        if (!Gate::allows('admin')) {
+            abort(403);
+        }
+    }
     /**
      * Display a listing of the resource.
      */
     public function index(): View
     {
         $title = 'Apakah anda yakin?';
-        $text = "Anda tidak akan bisa mengembalikannya!";
+        $text = 'Anda tidak akan bisa mengembalikannya!';
         confirmDelete($title, $text);
-        
+
         $kajur = HeadOfDepartement::first();
         return view('dashboard.kajur.index', compact('kajur'));
     }
@@ -104,7 +110,7 @@ class HeadOfDepartementController extends Controller
     public function show(HeadOfDepartement $kajur): View
     {
         $title = 'Apakah anda yakin?';
-        $text = "Anda tidak akan bisa mengembalikannya!";
+        $text = 'Anda tidak akan bisa mengembalikannya!';
         confirmDelete($title, $text);
 
         return view('dashboard.kajur.show', compact('kajur'));
@@ -128,17 +134,17 @@ class HeadOfDepartementController extends Controller
         DB::beginTransaction();
 
         try {
-            if(isset($validatedData['nidn'])) {
+            if (isset($validatedData['nidn'])) {
                 $kajur->user->username = $validatedData['nidn'];
                 $kajur->nidn = $validatedData['nidn'];
                 $kajur->user->password = Hash::make('kajur' . $validatedData['nidn']);
             }
-            
-            if(isset($validatedData['nip'])) {
+
+            if (isset($validatedData['nip'])) {
                 $kajur->nip = $validatedData['nip'];
             }
 
-            if(isset($validatedData['email'])) {
+            if (isset($validatedData['email'])) {
                 $kajur->user->email = $validatedData['email'];
             }
 

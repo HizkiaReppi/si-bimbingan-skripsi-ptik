@@ -12,9 +12,17 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Gate;
 
 class StudentController extends Controller
 {
+    public function __construct()
+    {
+        if (!Gate::allows('admin')) {
+            abort(403);
+        }
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -54,7 +62,7 @@ class StudentController extends Controller
             $user->email = $validatedData['email'];
             $user->password = Hash::make($validatedData['nim']);
             $user->role = 'student';
-            
+
             if ($request->hasFile('foto')) {
                 $file = $request->file('foto');
                 $fileName = time() . '_' . $user->username . '.' . $file->getClientOriginalExtension();
@@ -94,7 +102,7 @@ class StudentController extends Controller
         $title = 'Apakah anda yakin?';
         $text = 'Anda tidak akan bisa mengembalikannya!';
         confirmDelete($title, $text);
-        
+
         return view('dashboard.student.show', compact('student'));
     }
 
@@ -124,7 +132,7 @@ class StudentController extends Controller
                 $student->user->password = Hash::make($validatedData['nim']);
             }
 
-            if(isset($validatedData['email'])) {
+            if (isset($validatedData['email'])) {
                 $student->user->email = $validatedData['email'];
             }
 
@@ -133,15 +141,15 @@ class StudentController extends Controller
                 if (Storage::exists($oldImagePath)) {
                     Storage::delete($oldImagePath);
                 }
-                
+
                 $file = $request->file('foto');
                 $fileName = time() . '_' . $student->user->username . '.' . $file->getClientOriginalExtension();
-                
+
                 $file->storeAs('public/images/profile-photo', $fileName);
-                
+
                 $student->user->photo = $fileName;
             }
-            
+
             $student->user->name = $validatedData['fullname'];
             $student->user->save();
 

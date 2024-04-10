@@ -6,9 +6,17 @@ use App\Http\Requests\SetGuidanceActivityUpdateRequest;
 use App\Models\Guidance;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Gate;
 
 class GuidanceActivityController extends Controller
 {
+    public function __construct()
+    {
+        if (!Gate::allows('HoD')) {
+            abort(403);
+        }
+    }
+
     /**
      * Display a listing of the resource.
      */

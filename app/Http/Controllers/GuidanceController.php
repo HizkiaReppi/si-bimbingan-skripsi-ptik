@@ -9,9 +9,17 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Gate;
 
 class GuidanceController extends Controller
 {
+    public function __construct()
+    {
+        if (!Gate::allows('student')) {
+            abort(403);
+        }
+    }
+    
     /**
      * Display a listing of the resource.
      */
@@ -78,7 +86,9 @@ class GuidanceController extends Controller
                 $bimbingan->thesis_file = $fileName;
             }
 
-            $existingBimbingan = Guidance::where('student_id', $student->id)->latest()->first();
+            $existingBimbingan = Guidance::where('student_id', $student->id)
+                ->latest()
+                ->first();
 
             if (!$existingBimbingan || $existingBimbingan->guidance_number == null) {
                 $bimbingan->guidance_number = 1;
