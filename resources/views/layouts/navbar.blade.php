@@ -33,6 +33,8 @@
                                         <small class="text-muted">{{ auth()->user()->lecturer->nidn }}</small>
                                     @elseif (auth()->user()->role == 'student')
                                         <small class="text-muted">{{ auth()->user()->student->nim }}</small>
+                                    @elseif (auth()->user()->role == 'HoD')
+                                        <small class="text-muted">Ketua Jurusan</small>
                                     @else 
                                         <small class="text-muted text-capitalize">{{ auth()->user()->role }}</small>
                                     @endif

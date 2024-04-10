@@ -58,6 +58,12 @@
                 <div data-i18n="Bimbingan">Atur Jadwal Bimbingan</div>
             </a>
         </li>
+        <li class="menu-item {{ request()->routeIs('dashboard.aktivitas-bimbingan.*') ? 'active' : '' }}">
+            <a href="{{ route('dashboard.aktivitas-bimbingan.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons fa-solid fa-list-check"></i>
+                <div data-i18n="Aktivitas Bimbingan">Aktivitas Bimbingan</div>
+            </a>
+        </li>
         <li class="menu-item {{ request()->routeIs('dashboard.lecturer.*') ? 'active' : '' }}">
             <a href="{{ route('dashboard.lecturer.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons fa-solid fa-chalkboard-user"></i>
