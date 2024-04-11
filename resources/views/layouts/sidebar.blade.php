@@ -54,14 +54,30 @@
     </div>
 
     <div class="menu-inner-shadow"></div>
-
     <ul class="menu-inner py-1">
         @can('student')
-            <li class="menu-item {{ request()->routeIs('dashboard.bimbingan.*') ? 'active' : '' }}">
-                <a href="{{ route('dashboard.bimbingan.index') }}" class="menu-link">
+            <li class="menu-item {{ request()->is('bimbingan*') ? 'active open' : '' }}">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <i class="menu-icon tf-icons fa-solid fa-list-check"></i>
                     <div data-i18n="Bimbingan">Bimbingan</div>
                 </a>
+                <ul class="menu-sub">
+                    <li class="menu-item {{ request()->routeIs('dashboard.bimbingan.*') ? 'active' : '' }}">
+                        <a href="{{ route('dashboard.bimbingan.index') }}" class="menu-link">
+                            <div data-i18n="Bimbingan">Bimbingan</div>
+                        </a>
+                    </li>
+                    <li class="menu-item {{ request()->routeIs('dashboard.bimbingan-1.*') ? 'active' : '' }}">
+                        <a href="{{ route('dashboard.bimbingan-1.index') }}" class="menu-link">
+                            <div data-i18n="Dosen Pembimbing 1">Dosen Pembimbing 1</div>
+                        </a>
+                    </li>
+                    <li class="menu-item {{ request()->routeIs('dashboard.bimbingan-2.*') ? 'active' : '' }}">
+                        <a href="{{ route('dashboard.bimbingan-2.index') }}" class="menu-link">
+                            <div data-i18n="Dosen Pembimbing 2">Dosen Pembimbing 2</div>
+                        </a>
+                    </li>
+                </ul>
             </li>
         @elsecan('lecturer')
             <li class="menu-item {{ request()->routeIs('dashboard.atur-jadwal-bimbingan.*') ? 'active' : '' }}">

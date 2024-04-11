@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Student extends Model
 {
@@ -37,11 +38,19 @@ class Student extends Model
     }
 
     /**
-     * Get the dosen pembimbing for the student.
+     * Get the dosen pembimbing 1 for the student.
      */
-    public function supervisor(): BelongsTo
+    public function firstSupervisor(): BelongsTo
     {
-        return $this->belongsTo(Lecturer::class, 'lecturer_id');
+        return $this->belongsTo(Lecturer::class, 'lecturer_id_1');
+    }
+
+    /**
+     * Get the dosen pembimbing 2 for the student.
+     */
+    public function secondSupervisor(): BelongsTo
+    {
+        return $this->belongsTo(Lecturer::class, 'lecturer_id_2');
     }
 
     public function guidance(): HasMany
@@ -49,16 +58,33 @@ class Student extends Model
         return $this->hasMany(Guidance::class);
     }
 
-    /**
-     * Get the fullname of the dosen pembimbing.
-     */
-    public function getSupervisorFullnameAttribute(): string
+    public function thesis(): HasOne
     {
-        if ($this->supervisor) {
-            return $this->supervisor->front_degree . ' ' . $this->supervisor->user->name . ' ' . $this->supervisor->back_degree;
+        return $this->hasOne(Thesis::class);
+    }
+
+    /**
+     * Get the fullname of the dosen pembimbing 1.
+     */
+    public function getFirstSupervisorFullnameAttribute(): string
+    {
+        if ($this->firstSupervisor) {
+            return $this->firstSupervisor->front_degree . ' ' . $this->firstSupervisor->user->name . ' ' . $this->firstSupervisor->back_degree;
         }
         
-        return 'Student has no supervisor yet.';
+        return 'Mahasiswa Belum Memiliki Dosen Pembimbing 1';
+    }
+
+    /**
+     * Get the fullname of the dosen pembimbing 2.
+     */
+    public function getSecondSupervisorFullnameAttribute(): string
+    {
+        if ($this->secondSupervisor) {
+            return $this->secondSupervisor->front_degree . ' ' . $this->secondSupervisor->user->name . ' ' . $this->secondSupervisor->back_degree;
+        }
+        
+        return 'Mahasiswa Belum Memiliki Dosen Pembimbing 2';
     }
 
     /**
@@ -66,9 +92,9 @@ class Student extends Model
      */
     public function getThesisTitleAttribute(): string
     {
-        $guidance = $this->guidance->last();
-        if ($guidance) {
-            return $guidance->thesis_title;
+        $thesis = $this->thesis->last();
+        if ($thesis) {
+            return $thesis->title;
         }
 
         return 'Belum Ada Judul Skripsi';

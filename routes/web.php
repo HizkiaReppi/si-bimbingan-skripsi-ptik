@@ -21,7 +21,23 @@ Route::middleware('auth')->group(function () {
     Route::resource('/lecturer', LecturerController::class)->names('dashboard.lecturer');
     Route::resource('/student', StudentController::class)->names('dashboard.student');
     Route::resource('/kajur', HeadOfDepartementController::class)->names('dashboard.kajur');
-    Route::resource('/bimbingan', GuidanceController::class)->names('dashboard.bimbingan');
+    Route::get('/bimbingan', [GuidanceController::class, 'index'])->name('dashboard.bimbingan.index');
+
+    Route::get('/bimbingan/dosen-pembimbing-1', [GuidanceController::class, 'index'])->name('dashboard.bimbingan-1.index');
+    Route::get('/bimbingan/dosen-pembimbing-1/create', [GuidanceController::class, 'create'])->name('dashboard.bimbingan-1.create');
+    Route::post('/bimbingan/dosen-pembimbing-1', [GuidanceController::class, 'store'])->name('dashboard.bimbingan-1.store');
+    Route::get('/bimbingan/dosen-pembimbing-1/{bimbingan}', [GuidanceController::class, 'show'])->name('dashboard.bimbingan-1.show');
+    Route::get('/bimbingan/dosen-pembimbing-1/{bimbingan}/edit', [GuidanceController::class, 'edit'])->name('dashboard.bimbingan-1.edit');
+    Route::put('/bimbingan/dosen-pembimbing-1/{bimbingan}', [GuidanceController::class, 'update'])->name('dashboard.bimbingan-1.update');
+    Route::delete('/bimbingan/dosen-pembimbing-1/{bimbingan}', [GuidanceController::class, 'destroy'])->name('dashboard.bimbingan-1.destroy');
+
+    Route::get('/bimbingan/dosen-pembimbing-2', [GuidanceController::class, 'index'])->name('dashboard.bimbingan-2.index');
+    Route::get('/bimbingan/dosen-pembimbing-2/create', [GuidanceController::class, 'create'])->name('dashboard.bimbingan-2.create');
+    Route::post('/bimbingan/dosen-pembimbing-2', [GuidanceController::class, 'store'])->name('dashboard.bimbingan-2.store');
+    Route::get('/bimbingan/dosen-pembimbing-2/{bimbingan}', [GuidanceController::class, 'show'])->name('dashboard.bimbingan-2.show');
+    Route::get('/bimbingan/dosen-pembimbing-2/{bimbingan}/edit', [GuidanceController::class, 'edit'])->name('dashboard.bimbingan-2.edit');
+    Route::put('/bimbingan/dosen-pembimbing-2/{bimbingan}', [GuidanceController::class, 'update'])->name('dashboard.bimbingan-2.update');
+    Route::delete('/bimbingan/dosen-pembimbing-2/{bimbingan}', [GuidanceController::class, 'destroy'])->name('dashboard.bimbingan-2.destroy');
 
     Route::get('/mahasiswa-bimbingan', [GuidedStudentController::class, 'index'])->name('dashboard.mahasiswa-bimbingan.index');
     Route::get('/mahasiswa-bimbingan/{mahasiswa_bimbingan}', [GuidedStudentController::class, 'show'])->name('dashboard.mahasiswa-bimbingan.show');

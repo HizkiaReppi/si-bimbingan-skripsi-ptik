@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\GuidanceStoreRequest;
 use App\Http\Requests\GuidanceUpdateRequest;
 use App\Models\Guidance;
+use App\Models\Thesis;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
@@ -19,7 +20,7 @@ class GuidanceController extends Controller
             abort(403);
         }
     }
-    
+
     /**
      * Display a listing of the resource.
      */
@@ -29,8 +30,29 @@ class GuidanceController extends Controller
         $text = 'Anda tidak akan bisa mengembalikannya!';
         confirmDelete($title, $text);
 
-        $guidances = Guidance::where('student_id', auth()->user()->student->id)->get();
-        return view('dashboard.bimbingan.index', compact('guidances'));
+        $student = auth()->user()->student;
+
+        if (request()->routeIs('dashboard.bimbingan-1.index')) {
+            $guidances = Guidance::where('student_id', $student->id)->where('lecturer_id', $student->firstSupervisor->id)->get();
+            return view('dashboard.bimbingan.dosen-pembimbing-1.index', compact('guidances'));
+        } elseif (request()->routeIs('dashboard.bimbingan-2.index')) {
+            $guidances = Guidance::where('student_id', $student->id)->where('lecturer_id', $student->secondSupervisor->id)->get();
+            return view('dashboard.bimbingan.dosen-pembimbing-2.index', compact('guidances'));
+        } else {
+            $guidances = Guidance::where('student_id', $student->id)->get();
+            $thesis = Thesis::where('student_id', $student->id)->latest()->first();
+
+            // total bimbingan yang sudah dilakukan dari masing - masing dosen pembimbing
+            $totalGuidance1 = Guidance::where('student_id', $student->id)
+                ->where('lecturer_id', $student->firstSupervisor->id)
+                ->count();
+
+            $totalGuidance2 = Guidance::where('student_id', $student->id)
+                ->where('lecturer_id', $student->secondSupervisor->id)
+                ->count();
+
+            return view('dashboard.bimbingan.index', compact('guidances', 'thesis', 'totalGuidance1', 'totalGuidance2'));
+        }
     }
 
     /**
@@ -45,10 +67,16 @@ class GuidanceController extends Controller
             ->first();
 
         if ($latestGuidance) {
-            $thesis_title = $latestGuidance->thesis_title;
+            $thesis_title = $latestGuidance->thesis->title;
         }
 
-        return view('dashboard.bimbingan.create', compact('thesis_title'));
+        if (request()->routeIs('dashboard.bimbingan-1.create')) {
+            return view('dashboard.bimbingan.dosen-pembimbing-1.create', compact('thesis_title'));
+        } elseif (request()->routeIs('dashboard.bimbingan-2.create')) {
+            return view('dashboard.bimbingan.dosen-pembimbing-2.create', compact('thesis_title'));
+        } else {
+            return view('dashboard.bimbingan.create', compact('thesis_title'));
+        }
     }
 
     /**
@@ -63,19 +91,12 @@ class GuidanceController extends Controller
         DB::beginTransaction();
 
         try {
-            $bimbingan = new Guidance();
-
-            $bimbingan->thesis_title = $validatedData['judul-skripsi'];
-            $bimbingan->student_id = $student->id;
-            $bimbingan->topic = $validatedData['topik'];
-            $bimbingan->schedule = $validatedData['jadwal'];
-
-            if (isset($validatedData['catatan'])) {
-                $bimbingan->explanation = $validatedData['catatan'];
-            }
+            $thesis = new Thesis();
+            $thesis->student_id = $student->id;
+            $thesis->title = $validatedData['judul-skripsi'];
 
             if ($request->hasFile('file-skripsi')) {
-                $oldImagePath = 'public/file/skripsi/' . $bimbingan->thesis_file;
+                $oldImagePath = 'public/file/skripsi/' . $thesis->file;
                 if (Storage::exists($oldImagePath)) {
                     Storage::delete($oldImagePath);
                 }
@@ -83,12 +104,39 @@ class GuidanceController extends Controller
                 $file = $request->file('file-skripsi');
                 $fileName = time() . '-' . $student->nim . '.' . $file->getClientOriginalExtension();
                 $file->storeAs('public/file/skripsi', $fileName);
-                $bimbingan->thesis_file = $fileName;
+                $thesis->file = $fileName;
             }
 
-            $existingBimbingan = Guidance::where('student_id', $student->id)
-                ->latest()
-                ->first();
+            $thesis->save();
+
+            $bimbingan = new Guidance();
+
+            $bimbingan->thesis_id = $thesis->id;
+            $bimbingan->student_id = $student->id;
+
+            if (request()->routeIs('dashboard.bimbingan-1.store')) {
+                $bimbingan->lecturer_id = $student->firstSupervisor->id;
+
+                $existingBimbingan = Guidance::where('student_id', $student->id)
+                    ->where('lecturer_id', $student->firstSupervisor->id)
+                    ->latest()
+                    ->first();
+                    
+            } elseif (request()->routeIs('dashboard.bimbingan-2.store')) {
+                $bimbingan->lecturer_id = $student->secondSupervisor->id;
+
+                $existingBimbingan = Guidance::where('student_id', $student->id)
+                    ->where('lecturer_id', $student->secondSupervisor->id)
+                    ->latest()
+                    ->first();
+            }
+
+            $bimbingan->topic = $validatedData['topik'];
+            $bimbingan->schedule = $validatedData['jadwal'];
+
+            if (isset($validatedData['catatan'])) {
+                $bimbingan->explanation = $validatedData['catatan'];
+            }
 
             if (!$existingBimbingan || $existingBimbingan->guidance_number == null) {
                 $bimbingan->guidance_number = 1;
@@ -99,11 +147,18 @@ class GuidanceController extends Controller
             $bimbingan->save();
 
             DB::commit();
-            return redirect()->route('dashboard.bimbingan.index')->with('toast_success', 'Bimbingan berhasil ditambahkan');
+            if (request()->routeIs('dashboard.bimbingan-1.store')) {
+                return redirect()->route('dashboard.bimbingan-1.index')->with('toast_success', 'Bimbingan berhasil ditambahkan');
+            } elseif (request()->routeIs('dashboard.bimbingan-2.store')) {
+                return redirect()->route('dashboard.bimbingan-2.index')->with('toast_success', 'Bimbingan berhasil ditambahkan');
+            }
         } catch (\Exception $e) {
             DB::rollBack();
-            dd($e);
-            return redirect()->route('dashboard.bimbingan.index')->with('toast_error', 'Bimbingan gagal ditambahkan');
+            if (request()->routeIs('dashboard.bimbingan-1.store')) {
+                return redirect()->route('dashboard.bimbingan-1.index')->with('toast_error', 'Bimbingan gagal ditambahkan');
+            } elseif (request()->routeIs('dashboard.bimbingan-2.store')) {
+                return redirect()->route('dashboard.bimbingan-2.index')->with('toast_error', 'Bimbingan gagal ditambahkan');
+            }
         }
     }
 
@@ -112,7 +167,11 @@ class GuidanceController extends Controller
      */
     public function show(Guidance $bimbingan): View
     {
-        return view('dashboard.bimbingan.show', compact('bimbingan'));
+        if (request()->routeIs('dashboard.bimbingan-1.show')) {
+            return view('dashboard.bimbingan.dosen-pembimbing-1.show', compact('bimbingan'));
+        } elseif (request()->routeIs('dashboard.bimbingan-2.show')) {
+            return view('dashboard.bimbingan.dosen-pembimbing-2.show', compact('bimbingan'));
+        }
     }
 
     /**
@@ -120,7 +179,11 @@ class GuidanceController extends Controller
      */
     public function edit(Guidance $bimbingan): View
     {
-        return view('dashboard.bimbingan.edit', compact('bimbingan'));
+        if (request()->routeIs('dashboard.bimbingan-1.edit')) {
+            return view('dashboard.bimbingan.dosen-pembimbing-1.edit', compact('bimbingan'));
+        } elseif (request()->routeIs('dashboard.bimbingan-2.edit')) {
+            return view('dashboard.bimbingan.dosen-pembimbing-2.edit', compact('bimbingan'));
+        }
     }
 
     /**
@@ -133,7 +196,7 @@ class GuidanceController extends Controller
         DB::beginTransaction();
 
         try {
-            $bimbingan->thesis_title = $validatedData['judul-skripsi'];
+            $bimbingan->thesis->title = $validatedData['judul-skripsi'];
             $bimbingan->topic = $validatedData['topik'];
             $bimbingan->schedule = $validatedData['jadwal'];
 
@@ -145,16 +208,24 @@ class GuidanceController extends Controller
                 $file = $request->file('file-skripsi');
                 $fileName = time() . '-' . auth()->user()->student->nim . '.' . $file->getClientOriginalExtension();
                 $file->storeAs('public/file/skripsi', $fileName);
-                $bimbingan->thesis_file = $fileName;
+                $bimbingan->thesis->file = $fileName;
             }
 
             $bimbingan->save();
 
             DB::commit();
-            return redirect()->route('dashboard.bimbingan.index')->with('toast_success', 'Bimbingan berhasil diperbarui');
+            if (request()->routeIs('dashboard.bimbingan-1.update')) {
+                return redirect()->route('dashboard.bimbingan-1.index')->with('toast_success', 'Bimbingan berhasil diperbarui');
+            } elseif (request()->routeIs('dashboard.bimbingan-2.update')) {
+                return redirect()->route('dashboard.bimbingan-2.index')->with('toast_success', 'Bimbingan berhasil diperbarui');
+            }
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->route('dashboard.bimbingan.index')->with('toast_error', 'Bimbingan gagal diperbarui');
+            if (request()->routeIs('dashboard.bimbingan-1.update')) {
+                return redirect()->route('dashboard.bimbingan-1.index')->with('toast_error', 'Bimbingan gagal diperbarui');
+            } elseif (request()->routeIs('dashboard.bimbingan-2.update')) {
+                return redirect()->route('dashboard.bimbingan-2.index')->with('toast_error', 'Bimbingan gagal diperbarui');
+            }
         }
     }
 
@@ -168,10 +239,18 @@ class GuidanceController extends Controller
         try {
             $bimbingan->delete();
             DB::commit();
-            return redirect()->route('dashboard.bimbingan.index')->with('toast_success', 'Bimbingan berhasil dihapus');
+            if (request()->routeIs('dashboard.bimbingan-1.destroy')) {
+                return redirect()->route('dashboard.bimbingan-1.index')->with('toast_success', 'Bimbingan berhasil dihapus');
+            } elseif (request()->routeIs('dashboard.bimbingan-2.destroy')) {
+                return redirect()->route('dashboard.bimbingan-2.index')->with('toast_success', 'Bimbingan berhasil dihapus');
+            }
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->route('dashboard.bimbingan.index')->with('toast_error', 'Bimbingan gagal dihapus');
+            if (request()->routeIs('dashboard.bimbingan-1.destroy')) {
+                return redirect()->route('dashboard.bimbingan-1.index')->with('toast_error', 'Bimbingan gagal dihapus');
+            } elseif (request()->routeIs('dashboard.bimbingan-2.destroy')) {
+                return redirect()->route('dashboard.bimbingan-2.index')->with('toast_error', 'Bimbingan gagal dihapus');
+            }
         }
     }
 }

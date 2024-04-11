@@ -4,7 +4,7 @@
     </x-slot>
 
     <div class="card p-4">
-        <form method="post" action="{{ route('dashboard.bimbingan.update', $bimbingan->id) }}" enctype="multipart/form-data">
+        <form method="post" action="{{ route('dashboard.bimbingan-2.update', $bimbingan->id) }}" enctype="multipart/form-data">
             @csrf
             @method('put')
 
@@ -13,7 +13,7 @@
                         style="font-size:14px;color:red">*</span></label>
                 <input type="text" class="form-control {{ $errors->get('judul-skripsi') ? 'border-danger' : '' }}"
                     id="judul-skripsi" name="judul-skripsi" placeholder="Judul Skripsi"
-                    value="{{ old('judul-skripsi', $bimbingan->thesis_title) }}" autofocus required />
+                    value="{{ old('judul-skripsi', $bimbingan->thesis->title) }}" autofocus required />
                 <x-input-error class="mt-2" :messages="$errors->get('judul-skripsi')" />
             </div>
             <div class="mb-3">
@@ -33,7 +33,7 @@
             <div class="mb-3">
                 <label for="file-skripsi" class="form-label">File Skripsi</label>
                 <input class="form-control" type="file" id="file-skripsi" name="file-skripsi"
-                    accept=".pdf, .docx, .doc" value="{{ old('file-skripsi', $bimbingan->thesis_file) }}" />
+                    accept=".pdf, .docx, .doc" value="{{ old('file-skripsi', $bimbingan->thesis->file) }}" />
                 <x-input-error class="mt-2" :messages="$errors->get('file-skripsi')" />
                 <div id="form-help" class="form-text">
                     <small>PDF, DOCX, DOC (Max. 5 MB).</small>
@@ -47,7 +47,7 @@
             </div>
             <div>
                 <button type="submit" class="btn btn-primary">Edit Request Bimbingan</button>
-                <a href="{{ route('dashboard.bimbingan.index') }}" class="btn btn-outline-secondary ms-2">Batal</a>
+                <a href="{{ route('dashboard.bimbingan-2.index') }}" class="btn btn-outline-secondary ms-2">Batal</a>
             </div>
         </form>
     </div>

@@ -69,12 +69,14 @@ class DatabaseSeeder extends Seeder
                 'role' => 'student',
             ]);
 
-            $supervisor = $lecturers->random()->getAttributes();
+            $supervisor_1 = $lecturers->random()->getAttributes();
+            $supervisor_2 = $lecturers->random()->getAttributes();
 
             Student::create([
                 'id' => Factory::create()->uuid(),
                 'user_id' => $uuid,
-                'lecturer_id' => $supervisor['id'],
+                'lecturer_id_1' => $supervisor_1['id'],
+                'lecturer_id_2' => $supervisor_2['id'],
                 'nim' => $nim,
                 'batch' => 2021,
                 'concentration' => $this->randomKonsentrasi(),

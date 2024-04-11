@@ -4,7 +4,7 @@
     </x-slot>
 
     <div class="card p-4">
-        <form method="post" action="{{ route('dashboard.bimbingan.store') }}" enctype="multipart/form-data">
+        <form method="post" action="{{ route('dashboard.bimbingan-2.store') }}" enctype="multipart/form-data">
             @csrf
 
             <div class="mb-3">
@@ -47,7 +47,7 @@
             </div>
             <div>
                 <button type="submit" class="btn btn-primary">Request Bimbingan</button>
-                <a href="{{ route('dashboard.bimbingan.index') }}" class="btn btn-outline-secondary ms-2">Batal</a>
+                <a href="{{ route('dashboard.bimbingan-2.index') }}" class="btn btn-outline-secondary ms-2">Batal</a>
             </div>
         </form>
     </div>

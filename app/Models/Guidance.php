@@ -21,4 +21,14 @@ class Guidance extends Model
     {
         return $this->belongsTo(Student::class, 'student_id');
     }
+
+    public function lecturer(): BelongsTo
+    {
+        return $this->belongsTo(Lecturer::class, 'lecturer_id');
+    }
+
+    public function thesis(): BelongsTo
+    {
+        return $this->belongsTo(Thesis::class, 'thesis_id');
+    }
 }

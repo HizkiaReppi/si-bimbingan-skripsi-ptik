@@ -14,15 +14,15 @@ return new class extends Migration
         Schema::create('guidances', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('student_id')->constrained('students')->onDelete('cascade');
-            $table->string('thesis_title');
+            $table->foreignUuid('thesis_id')->constrained('theses')->onDelete('cascade');
+            $table->foreignUuid('lecturer_id')->nullable()->constrained('lecturers')->onDelete('cascade');
             $table->string('topic');
             $table->text('explanation')->nullable()->default(null);
-            $table->string('thesis_file');
             $table->string('thesis_file_review')->nullable()->default(null);
             $table->text('lecturer_notes')->nullable()->default(null);
             $table->dateTime('schedule');
             $table->unsignedInteger('guidance_number')->default(1);
-            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->enum('status_request', ['pending', 'approved'])->default('pending');
             $table->timestamps();
         });
     }
