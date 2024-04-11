@@ -92,7 +92,10 @@ class LecturerController extends Controller
         $text = 'Anda tidak akan bisa mengembalikannya!';
         confirmDelete($title, $text);
 
-        $students = Student::where('lecturer_id', $lecturer->id)->get();
+        $students = Student::where('lecturer_id_1', $lecturer->id)
+            ->orWhere('lecturer_id_2', $lecturer->id)
+            ->get();
+
         return view('dashboard.lecturer.show', compact('lecturer', 'students'));
     }
 

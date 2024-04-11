@@ -107,8 +107,9 @@
                     <tr>
                         <th class="text-center">NIM</th>
                         <th class="text-center">Nama</th>
-                        <th class="text-center" style="width: 10px;">Judul Skripsi</th>
-                        <th class="text-center">Dosen Pembimbing</th>
+                        <th class="text-center">Judul Skripsi</th>
+                        <th class="text-center">Dosen Pembimbing 1</th>
+                        <th class="text-center">Dosen Pembimbing 2</th>
                         <th class="text-center">Total Bimbingan</th>
                     </tr>
                 </thead>
@@ -117,8 +118,9 @@
                         <tr>
                             <td class="text-center">{{ $studentsWithThesis->nim }}</td>
                             <td class="fw-medium text-nowrap">{{ $studentsWithThesis->fullname }}</td>
-                            <td class="text-justify" style="width: 10px;">{{ $studentsWithThesis->thesisTitle }}</td>
-                            <td class="text-left text-nowrap">{{ $studentsWithThesis->supervisorFullname }}</td>
+                            <td class="text-justify">{{ $studentsWithThesis->thesisTitle }}</td>
+                            <td class="text-left">{{ $studentsWithThesis->firstSupervisorFullname }}</td>
+                            <td class="text-left">{{ $studentsWithThesis->secondSupervisorFullname }}</td>
                             <td class="text-center">{{ $studentsWithThesis->guidanceCount }}</td>
                         </tr>
                     @endforeach

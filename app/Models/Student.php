@@ -92,9 +92,10 @@ class Student extends Model
      */
     public function getThesisTitleAttribute(): string
     {
-        $thesis = $this->thesis->last();
-        if ($thesis) {
-            return $thesis->title;
+        $latestThesis = $this->thesis()->latest()->first();
+
+        if ($latestThesis) {
+            return $latestThesis->title;
         }
 
         return 'Belum Ada Judul Skripsi';
