@@ -70,6 +70,16 @@
                     id="no-hp" name="no-hp" placeholder="Nomor HP" value="{{ old('no-hp') }}" />
                 <x-input-error class="mt-2" :messages="$errors->get('no-hp')" />
             </div>
+            <div class="mb-3">
+                <label for="foto" class="form-label">Foto</label>
+                <img class="img-preview img-thumbnail rounded" style="width: 300px; height: auto;">
+                <input class="form-control" type="file" id="foto" name="foto"
+                    accept=".png, .jpg, .jpeg" />
+                <x-input-error class="mt-2" :messages="$errors->get('foto')" />
+                <div id="form-help" class="form-text">
+                    <small>PNG, JPG atau JPEG (Max. 2 MB).</small>
+                </div>
+            </div>
             <div>
                 <button type="submit" class="btn btn-primary">Tambah Data</button>
                 <a href="{{ route('dashboard.lecturer.index') }}" class="btn btn-outline-secondary ms-2">Batal</a>

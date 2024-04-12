@@ -86,9 +86,8 @@
             <div class="mb-3">
                 <label for="foto" class="form-label">Foto</label>
                 @if ($student->user->photo)
-                    <img src="{{ asset('storage/images/profile-photo/' . $student->user->photo) }}"
-                        alt="{{ $student->fullname }}" class="img-preview img-thumbnail rounded mb-2"
-                        style="width: 300px; height: auto;">
+                    <img src="{{ $student->user->photoFile }}" alt="{{ $student->fullname }}"
+                        class="img-preview img-thumbnail rounded mb-2" style="width: 300px; height: auto;">
                 @else
                     <img class="img-preview img-thumbnail rounded" style="width: 300px; height: auto;">
                 @endif

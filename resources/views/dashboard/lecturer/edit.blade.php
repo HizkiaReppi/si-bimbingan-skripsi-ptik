@@ -78,10 +78,27 @@
                     value="{{ old('no-hp', $lecturer->phone_number) }}" />
                 <x-input-error class="mt-2" :messages="$errors->get('no-hp')" />
             </div>
-            <div>
-                <button type="submit" class="btn btn-primary">Edit Data</button>
-                <a href="{{ route('dashboard.lecturer.index') }}" class="btn btn-outline-secondary ms-2">Batal</a>
+            <div class="mb-3">
+                <label for="foto" class="form-label">Foto</label>
+                @if ($lecturer->user->photo)
+                    <img src="{{ $lecturer->user->photoFile }}" alt="{{ $lecturer->fullname }}"
+                        class="img-preview img-thumbnail rounded mb-2" style="width: 300px; height: auto;">
+                @else
+                    <img class="img-preview img-thumbnail rounded" style="width: 300px; height: auto;">
+                @endif
+                <input class="form-control" type="file" id="foto" name="foto"
+                    accept=".png, .jpg, .jpeg" />
+                <x-input-error class="mt-2" :messages="$errors->get('foto')" />
+                <div id="form-help" class="form-text">
+                    <small>PNG, JPG atau JPEG (Max. 2 MB).</small>
+                </div>
             </div>
+            <div>
+                <div>
+                    <button type="submit" class="btn btn-primary">Edit Data</button>
+                    <a href="{{ route('dashboard.lecturer.index') }}"
+                        class="btn btn-outline-secondary ms-2">Batal</a>
+                </div>
         </form>
     </div>
 </x-dashboard-layout>

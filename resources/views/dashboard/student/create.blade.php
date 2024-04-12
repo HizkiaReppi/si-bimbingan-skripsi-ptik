@@ -97,9 +97,4 @@
             </div>
         </form>
     </div>
-
-    @push('scripts')
-        <script src="{{ asset('js/student-form.js') }}"></script>
-    @endpush
-
 </x-dashboard-layout>
