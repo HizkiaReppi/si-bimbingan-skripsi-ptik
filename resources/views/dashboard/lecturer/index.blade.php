@@ -22,8 +22,8 @@
                     @foreach ($lecturers as $lecturer)
                         <tr>
                             <td class="fw-medium">{{ $lecturer->fullname }}</td>
-                            <td class="text-center">{{ $lecturer->nidn }}</td>
-                            <td class="text-center">{{ $lecturer->formattedNIP }}</td>
+                            <td class="text-center text-nowrap">{{ $lecturer->nidn }}</td>
+                            <td class="text-center text-nowrap">{{ $lecturer->formattedNIP }}</td>
                             <td class="d-flex justify-content-center">
                                 <div class="dropdown">
                                     <button type="button" class="btn p-0 dropdown-toggle hide-arrow"

@@ -24,8 +24,8 @@
                     <tr>
                         @if ($kajur)
                             <td class="fw-medium">{{ $kajur->fullname }}</td>
-                            <td class="text-center">{{ $kajur->nidn }}</td>
-                            <td class="text-center">{{ $kajur->formattedNIP }}</td>
+                            <td class="text-center text-nowrap">{{ $kajur->nidn }}</td>
+                            <td class="text-center text-nowrap">{{ $kajur->formattedNIP }}</td>
                             <td class="d-flex justify-content-center">
                                 <div class="dropdown">
                                     <button type="button" class="btn p-0 dropdown-toggle hide-arrow"

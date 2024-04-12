@@ -69,7 +69,7 @@
                             @foreach ($students as $student)
                                 <tr>
                                     <td class="fw-medium">{{ $student->user->name }}</td>
-                                    <td class="text-center">{{ $student->formattedNIM }}</td>
+                                    <td class="text-center text-nowrap">{{ $student->formattedNIM }}</td>
                                     <td class="text-center">{{ $student->batch }}</td>
                                     <td class="text-center">{{ $student->concentration }}</td>
                                     <td class="d-flex justify-content-center">

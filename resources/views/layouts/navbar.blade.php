@@ -45,7 +45,7 @@
                                     @if (auth()->user()->role == 'lecturer')
                                         <small class="text-muted">{{ auth()->user()->lecturer->nidn }}</small>
                                     @elseif (auth()->user()->role == 'student')
-                                        <small class="text-muted">{{ auth()->user()->student->nim }}</small>
+                                        <small class="text-muted">{{ auth()->user()->student->formattedNIM }}</small>
                                     @elseif (auth()->user()->role == 'HoD')
                                         <small class="text-muted">Ketua Jurusan</small>
                                     @else

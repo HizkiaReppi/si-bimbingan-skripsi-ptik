@@ -25,7 +25,7 @@
                         @foreach ($guidances as $studentId => $guidanceList)
                             @foreach ($guidanceList as $guidance)
                                 <tr>
-                                    <td class="fw-medium">{{ $guidance->student->formattedNIM }}</td>
+                                    <td class="fw-medium text-nowrap">{{ $guidance->student->formattedNIM }}</td>
                                     <td>{{ $guidance->student->fullname }}</td>
                                     <td class="text-center">{{ $guidance->topic }}</td>
                                     <td class="text-center">{{ $guidance->schedule }}</td>

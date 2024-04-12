@@ -23,7 +23,7 @@
                 <tbody class="table-border-bottom-0">
                     @foreach ($requestExams as $exam)
                         <tr>
-                            <td class="text-center">{{ $exam->student->nim }}</td>
+                            <td class="text-center text-nowrap">{{ $exam->student->formattedNIM }}</td>
                             <td class="text-start">{{ $exam->student->fullname }}</td>
                             <td class="text-start">{{ $exam->student->firstSupervisorFullname }}</td>
                             <td class="text-start">{{ $exam->student->secondSupervisorFullname }}</td>
@@ -61,7 +61,7 @@
                 <tbody class="table-border-bottom-0">
                     @foreach ($approvedExams as $exam)
                         <tr>
-                            <td class="text-center">{{ $exam->student->nim }}</td>
+                            <td class="text-center text-nowrap">{{ $exam->student->formattedNIM }}</td>
                             <td class="text-start">{{ $exam->student->fullname }}</td>
                             <td class="text-start">{{ $exam->student->firstSupervisorFullname }}</td>
                             <td class="text-start">{{ $exam->student->secondSupervisorFullname }}</td>

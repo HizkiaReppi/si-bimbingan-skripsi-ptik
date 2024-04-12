@@ -24,7 +24,7 @@
                 <tbody class="table-border-bottom-0">
                     @foreach ($guidances as $guidance)
                         <tr>
-                            <td class="text-center">{{ $guidance->student->nim }}</td>
+                            <td class="text-center text-nowrap">{{ $guidance->student->formattedNIM }}</td>
                             <td>{{ $guidance->student->fullname }}</td>
                             <td>{{ $guidance->lecturer->fullname }}</td>
                             <td class="text-center">{{ $guidance->guidance_number }}</td>
