@@ -47,9 +47,8 @@
                     <div class="mb-3">
                         <button class="btn btn-primary d-grid w-100" type="submit">Login</button>
                     </div>
+                </form>
             </div>
-            </form>
-        </div>
         </div>
     </section>
 </x-auth-layout>
