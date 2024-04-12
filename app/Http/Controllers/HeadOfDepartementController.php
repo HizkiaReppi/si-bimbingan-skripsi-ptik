@@ -12,6 +12,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class HeadOfDepartementController extends Controller
 {
@@ -156,6 +157,11 @@ class HeadOfDepartementController extends Controller
             $kajur->phone_number = $validatedData['no-hp'];
 
             if ($request->hasFile('foto')) {
+                $oldImagePath = 'public/images/profile-photo/' . $kajur->user->photo;
+                if (Storage::exists($oldImagePath)) {
+                    Storage::delete($oldImagePath);
+                }
+
                 $file = $request->file('foto');
                 $fileName = time() . '_kajur_' . $kajur->user->username . '.' . $file->getClientOriginalExtension();
 

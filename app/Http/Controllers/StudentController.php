@@ -66,7 +66,7 @@ class StudentController extends Controller
 
             if ($request->hasFile('foto')) {
                 $file = $request->file('foto');
-                $fileName = time() . '_' . $user->username . '.' . $file->getClientOriginalExtension();
+                $fileName = time() . '_mahasiswa_' . $user->username . '.' . $file->getClientOriginalExtension();
 
                 $file->storeAs('public/images/profile-photo', $fileName);
 
@@ -146,7 +146,7 @@ class StudentController extends Controller
                 }
 
                 $file = $request->file('foto');
-                $fileName = time() . '_' . $student->user->username . '.' . $file->getClientOriginalExtension();
+                $fileName = time() . '_mahasiswa_' . $student->user->username . '.' . $file->getClientOriginalExtension();
 
                 $file->storeAs('public/images/profile-photo', $fileName);
 

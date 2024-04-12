@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class LecturerController extends Controller
 {
@@ -59,6 +60,16 @@ class LecturerController extends Controller
             $user->username = $validatedData['nidn'];
             $user->password = Hash::make($validatedData['nidn']);
             $user->role = 'lecturer';
+
+            if ($request->hasFile('foto')) {
+                $file = $request->file('foto');
+                $fileName = time() . '_dosen_' . $user->username . '.' . $file->getClientOriginalExtension();
+
+                $file->storeAs('public/images/profile-photo', $fileName);
+
+                $user->photo = $fileName;
+            }
+
             $user->save();
 
             $lecturer = new Lecturer();
@@ -140,6 +151,21 @@ class LecturerController extends Controller
             $lecturer->rank = $validatedData['pangkat'];
             $lecturer->type = $validatedData['golongan'];
             $lecturer->phone_number = $validatedData['no-hp'];
+
+            if ($request->hasFile('foto')) {
+                $oldImagePath = 'public/images/profile-photo/' . $lecturer->user->photo;
+                if (Storage::exists($oldImagePath)) {
+                    Storage::delete($oldImagePath);
+                }
+
+                $file = $request->file('foto');
+                $fileName = time() . '_dosen_' . $lecturer->user->username . '.' . $file->getClientOriginalExtension();
+
+                $file->storeAs('public/images/profile-photo', $fileName);
+
+                $lecturer->user->photo = $fileName;
+            }
+
             $lecturer->save();
 
             DB::commit();
