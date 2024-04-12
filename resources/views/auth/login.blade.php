@@ -10,7 +10,7 @@
                     </a>
                 </div>
                 <h4 class="mb-2 fs-4 text-center">Selamat Datang di SI Bimbingan Skripsi</h4>
-                
+
                 <form class="mb-3" method="post" action="{{ route('login') }}">
                     @csrf
                     <div class="mb-3">
@@ -25,10 +25,24 @@
                             </p>
                         @endif
                     </div>
+                    <div class="mb-3 form-password-toggle">
+                        <div class="d-flex justify-content-between">
+                            <label class="form-label" for="password">Password</label>
+                            <a href="{{ route('password.request') }}">
+                                <small>Lupa Password?</small>
+                            </a>
+                        </div>
+                        <div class="input-group input-group-merge">
+                            <input type="password" id="password" class="form-control" name="password"
+                                placeholder="******" />
+                            <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                        </div>
+                    </div>
                     <div class="mb-3">
-                        <label class="form-label" for="password">Password</label>
-                        <input type="password" id="password" class="form-control" name="password"
-                            placeholder="******" />
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="remember" name="remember" />
+                            <label class="form-check-label" for="remember"> Ingat Saya </label>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <button class="btn btn-primary d-grid w-100" type="submit">Login</button>
