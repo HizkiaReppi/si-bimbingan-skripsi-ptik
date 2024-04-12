@@ -63,6 +63,11 @@ class Student extends Model
         return $this->hasOne(Thesis::class);
     }
 
+    public function examResult(): HasOne
+    {
+        return $this->hasOne(ExamResult::class);
+    }
+
     /**
      * Get the fullname of the dosen pembimbing 1.
      */

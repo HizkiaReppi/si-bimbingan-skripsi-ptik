@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\GuidanceStoreRequest;
 use App\Http\Requests\GuidanceUpdateRequest;
+use App\Models\ExamResult;
 use App\Models\Guidance;
 use App\Models\Thesis;
 use Illuminate\Http\RedirectResponse;
@@ -42,7 +43,6 @@ class GuidanceController extends Controller
             $guidances = Guidance::where('student_id', $student->id)->get();
             $thesis = Thesis::where('student_id', $student->id)->latest()->first();
 
-            // total bimbingan yang sudah dilakukan dari masing - masing dosen pembimbing
             $totalGuidance1 = Guidance::where('student_id', $student->id)
                 ->where('lecturer_id', $student->firstSupervisor->id)
                 ->count();
@@ -51,7 +51,19 @@ class GuidanceController extends Controller
                 ->where('lecturer_id', $student->secondSupervisor->id)
                 ->count();
 
-            return view('dashboard.bimbingan.index', compact('guidances', 'thesis', 'totalGuidance1', 'totalGuidance2'));
+            $latestGuidance = Guidance::where('student_id', $student->id)
+                ->latest()
+                ->first();
+
+            $examResult = ExamResult::where('student_id', $student->id)
+                ->where('thesis_id', $thesis->id)
+                ->first();
+
+            $title = 'Apakah anda yakin?';
+            $text = 'Data pengajuan ujian Anda akan dihapus!';
+            confirmDelete($title, $text);
+
+            return view('dashboard.bimbingan.index', compact('guidances', 'latestGuidance', 'thesis', 'totalGuidance1', 'totalGuidance2', 'examResult'));
         }
     }
 

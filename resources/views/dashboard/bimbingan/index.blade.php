@@ -3,13 +3,67 @@
         Bimbingan
     </x-slot>
 
+    @if ($examResult)
+        <div class="card mb-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="card-header">Status Pengajuan Ujian Hasil</h5>
+                @if ($examResult === 'approved')
+                    <a href="#" class="btn btn-primary me-4">Cetak Kartu Ujian</a>
+                @endif
+
+            </div>
+            <div class="table-responsive text-wrap px-4 pb-4">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Judul Skripsi</th>
+                            <th class="text-center text-nowrap">Tanggal Registrasi</th>
+                            <th class="text-center text-nowrap">Persetujuan Ketua Jurusan</th>
+                            <th class="text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                        <tr>
+                            <td class="fw-medium">{{ $examResult->thesis->title }}</td>
+                            <td class="text-center">{{ $examResult->created_at->diffForHumans() }}</td>
+                            @if ($examResult->status_request == 'pending')
+                                <td class="text-center text-capitalize">
+                                    <span class="badge bg-info text-dark">Diajukan</span>
+                                </td>
+                            @elseif ($examResult->status_request == 'approved')
+                                <td class="text-center text-capitalize">
+                                    <span class="badge bg-success">Disetujui</span>
+                                </td>
+                            @endif
+                            <td class="text-center">
+                                <a href="{{ route('dashboard.ujian.destroy', $examResult->id) }}"
+                                    data-confirm-delete="true">Batal</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    @endif
+
     @if ($totalGuidance1 >= 6 && $totalGuidance2 >= 6)
         <div class="card mb-4">
             <div class="d-flex justify-content-between align-items-center">
                 <h5 class="card-header">Status Skripsi</h5>
-                @if ($thesis->approval_lecturer_1 === 'approved' && $thesis->approval_lecturer_2 === 'approved')
-                    <a href="javascript:void(0);" class="btn btn-primary me-4">Request Persetujuan Ujian</a>
+                @if ($thesis->approval_lecturer_1 === 'approved' && $thesis->approval_lecturer_2 === 'approved' && !$examResult)
+                    <form
+                        action="{{ route('dashboard.ujian.store', [
+                            'student_id' => $thesis->student_id,
+                            'guidance_id' => $latestGuidance->id,
+                            'thesis_id' => $thesis->id,
+                        ]) }}"
+                        method="post">
+                        @csrf
+
+                        <button type="submit" class="btn btn-primary me-4">Request Persetujuan Ujian</button>
+                    </form>
                 @endif
+
             </div>
             <div class="table-responsive text-wrap px-4 pb-4">
                 <table class="table">

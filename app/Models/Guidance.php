@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Guidance extends Model
 {
@@ -30,5 +31,10 @@ class Guidance extends Model
     public function thesis(): BelongsTo
     {
         return $this->belongsTo(Thesis::class, 'thesis_id');
+    }
+
+    public function examResult(): HasOne
+    {
+        return $this->hasOne(ExamResult::class);
     }
 }

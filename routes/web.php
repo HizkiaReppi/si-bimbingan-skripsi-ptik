@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ExamResultController;
 use App\Http\Controllers\GuidanceActivityController;
 use App\Http\Controllers\GuidanceController;
 use App\Http\Controllers\GuidedStudentController;
@@ -22,6 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/student', StudentController::class)->names('dashboard.student');
     Route::resource('/kajur', HeadOfDepartementController::class)->names('dashboard.kajur');
     Route::get('/bimbingan', [GuidanceController::class, 'index'])->name('dashboard.bimbingan.index');
+    Route::resource('/ujian', ExamResultController::class)->names('dashboard.ujian');
 
     Route::get('/bimbingan/dosen-pembimbing-1', [GuidanceController::class, 'index'])->name('dashboard.bimbingan-1.index');
     Route::get('/bimbingan/dosen-pembimbing-1/create', [GuidanceController::class, 'create'])->name('dashboard.bimbingan-1.create');
