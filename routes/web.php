@@ -59,7 +59,9 @@ Route::middleware('auth')->group(function () {
     Route::put('/aktivitas-bimbingan/{aktivitas_bimbingan}', [GuidanceActivityController::class, 'update'])->name('dashboard.aktivitas-bimbingan.update');
     
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/profile/admin', [ProfileController::class, 'update_admin'])->name('profile.update.admin');
+    Route::patch('/profile/student', [ProfileController::class, 'update_student'])->name('profile.update.student');
+    Route::patch('/profile/lecturer', [ProfileController::class, 'update_lecturer'])->name('profile.update.lecturer');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
