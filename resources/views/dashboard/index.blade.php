@@ -116,7 +116,7 @@
                 <tbody class="table-border-bottom-0">
                     @foreach ($studentsWithTheses as $studentsWithThesis)
                         <tr>
-                            <td class="text-center">{{ $studentsWithThesis->nim }}</td>
+                            <td class="text-center">{{ $studentsWithThesis->formattedNIM }}</td>
                             <td class="fw-medium text-nowrap">{{ $studentsWithThesis->fullname }}</td>
                             <td class="text-justify">{{ $studentsWithThesis->thesisTitle }}</td>
                             <td class="text-left">{{ $studentsWithThesis->firstSupervisorFullname }}</td>

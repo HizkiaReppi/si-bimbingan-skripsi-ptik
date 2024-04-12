@@ -29,13 +29,16 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Seeder untuk 10 data user dan dosen
-        for ($i = 1; $i <= 3; $i++) {
-            $nip = '196808' . sprintf('%03d', $i);
+        for ($i = 1; $i <= 5; $i++) {
+            $gender = rand(1, 2);
+            
             $uuid = Str::uuid();
-            $nidn = '00000000' . $i;
+            $nip = generateNIP($i, $gender);
+            $nidn = generateNIDN();
+
             $user = User::create([
                 'id' => $uuid,
-                'name' => Factory::create()->name(),
+                'name' => Factory::create()->name($gender == 1 ? 'male' : 'female'),
                 'username' => $nidn,
                 'email' => $nidn . '@unima.ac.id',
                 'password' => bcrypt($nidn),
@@ -58,11 +61,12 @@ class DatabaseSeeder extends Seeder
         $lecturers = Lecturer::all()->shuffle();
 
         for ($i = 1; $i <= 10; $i++) {
+            $gender = rand(0, 1);
             $nim = '21208' . sprintf('%03d', $i);
             $uuid = Str::uuid();
             $user = User::create([
                 'id' => $uuid,
-                'name' => Factory::create()->name(),
+                'name' => Factory::create()->name($gender == 1 ? 'male' : 'female'),
                 'email' => $nim . '@unima.ac.id',
                 'username' => $nim,
                 'password' => bcrypt($nim),

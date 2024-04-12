@@ -116,4 +116,12 @@ class Student extends Model
     {
         return $this->user->name;
     }
+
+    /**
+     * Format NIM.
+     */
+    public function getFormattedNIMAttribute(): string
+    {
+        return formatNIM($this->nim);
+    }
 }

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignUuid('user_id')->constrained()->onDelete('cascade');
             $table->foreignUuid('lecturer_id_1')->constrained('lecturers')->onDelete('cascade');
             $table->foreignUuid('lecturer_id_2')->nullable()->constrained('lecturers')->onDelete('cascade');
-            $table->string('nim', 20)->unique();
+            $table->string('nim', 10)->unique();
             $table->unsignedSmallInteger('batch');
             $table->enum('concentration', ['RPL', 'Multimedia', 'TKJ']);
             $table->string('phone_number', 20)->nullable()->default(null);

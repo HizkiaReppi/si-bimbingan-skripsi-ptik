@@ -37,7 +37,7 @@
                 <div class="mb-3 col-md-6">
                     <label for="nip" class="form-label">NIP</label>
                     <input type="text" class="form-control" id="nip" name="nip"
-                        value="{{ $lecturer->nip }}" readonly />
+                        value="{{ $lecturer->formattedNIP }}" readonly />
                 </div>
                 <div class="mb-3 col-md-6">
                     <label for="nidn" class="form-label">NIDN</label>

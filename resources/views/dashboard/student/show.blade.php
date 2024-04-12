@@ -24,7 +24,7 @@
                 </div>
                 <div class="mb-3 col-md-6">
                     <label for="nim" class="form-label">NIM</label>
-                    <p class="border p-2 rounded m-0">{{ $student->nim }}</p>
+                    <p class="border p-2 rounded m-0">{{ $student->formattedNIM }}</p>
                 </div>
                 <div class="mb-3 col-md-6">
                     <label for="judu-skripsi" class="form-label">Judul Skripsi</label>

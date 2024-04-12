@@ -33,7 +33,7 @@ class LecturerUpdateRequest extends FormRequest
         ];
 
         if($this->nidn != $this->lecturer->nidn) {
-            $rules['nidn'] = ['required', 'string', 'max:25', 'min:4', 'unique:' . Lecturer::class, 'regex:/^[0-9]*$/'];
+            $rules['nidn'] = ['required', 'integer', 'digits:10', 'unique:' . Lecturer::class, 'regex:/^[0-9]*$/'];
         }
 
         if($this->email != $this->lecturer->user->email) {
@@ -41,7 +41,7 @@ class LecturerUpdateRequest extends FormRequest
         }
 
         if($this->nip != $this->lecturer->nip) {
-            $rules['nip'] = ['required', 'string', 'max:25', 'min:13', 'unique:' . Lecturer::class, 'regex:/^[0-9]*$/'];
+            $rules['nip'] = ['required', 'integer', 'digits:18','unique:' . Lecturer::class, 'regex:/^[0-9]*$/'];
         }
 
         return $rules;

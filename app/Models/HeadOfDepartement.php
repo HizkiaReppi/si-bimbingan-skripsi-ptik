@@ -43,4 +43,20 @@ class HeadOfDepartement extends Model
     {
         return $this->front_degree . ' ' . $this->user->name . ' ' . $this->back_degree;
     }
+
+    /**
+     * Format NIP.
+     */
+    public function getFormattedNIPAttribute(): string
+    {
+        return formatNIP($this->nip);
+    }
+
+    /**
+     * Format NIDN.
+     */
+    public function getFormattedNIDNAttribute(): string
+    {
+        return formatNIDN($this->nidn);
+    }
 }

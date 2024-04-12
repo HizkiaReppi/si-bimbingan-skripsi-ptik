@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('lecturers', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
-            $table->string('nip', 25)->unique();
-            $table->string('nidn', 25)->unique();
+            $table->string('nip', 18)->unique();
+            $table->string('nidn', 10)->unique();
             $table->string('front_degree', 50)->nullable()->default(null);
             $table->string('back_degree', 50)->nullable()->default(null);
             $table->string('position', 100)->nullable()->default(null);
