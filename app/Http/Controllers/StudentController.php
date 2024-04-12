@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StudentStoreRequest;
 use App\Http\Requests\StudentUpdateRequest;
+use App\Models\Guidance;
 use App\Models\Student;
 use App\Models\User;
 use App\Models\Lecturer;
@@ -76,7 +77,8 @@ class StudentController extends Controller
 
             $student = new Student();
             $student->user_id = $user->id;
-            $student->lecturer_id = $validatedData['lecturer_id'];
+            $student->lecturer_id_1 = $validatedData['lecturer_id_1'];
+            $student->lecturer_id_2 = $validatedData['lecturer_id_2'];
             $student->nim = $validatedData['nim'];
             $student->batch = $validatedData['angkatan'];
             $student->concentration = $validatedData['konsentrasi'];
@@ -89,7 +91,6 @@ class StudentController extends Controller
             return redirect()->route('dashboard.student.index')->with('toast_success', 'Student added successfully');
         } catch (\Exception $e) {
             DB::rollBack();
-            dd($e->getMessage());
             return redirect()->back()->withInput()->with('toast_error', 'Failed to add Student. Please try again.');
         }
     }
@@ -103,7 +104,9 @@ class StudentController extends Controller
         $text = 'Anda tidak akan bisa mengembalikannya!';
         confirmDelete($title, $text);
 
-        return view('dashboard.student.show', compact('student'));
+        $guidances = Guidance::where('student_id', $student->id)->get();
+
+        return view('dashboard.student.show', compact('student', 'guidances'));
     }
 
     /**
@@ -153,7 +156,8 @@ class StudentController extends Controller
             $student->user->name = $validatedData['fullname'];
             $student->user->save();
 
-            $student->lecturer_id = $validatedData['lecturer_id'];
+            $student->lecturer_id_1 = $validatedData['lecturer_id_1'];
+            $student->lecturer_id_2 = $validatedData['lecturer_id_2'];
             $student->batch = $validatedData['angkatan'];
             $student->concentration = $validatedData['konsentrasi'];
             $student->phone_number = $validatedData['no-hp'];

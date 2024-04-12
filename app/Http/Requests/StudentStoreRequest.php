@@ -33,7 +33,8 @@ class StudentStoreRequest extends FormRequest
             'no-hp' => ['nullable', 'string', 'min:9', 'max:20', 'regex:/^08[0-9]*$/'],
             'alamat' => ['nullable', 'string', 'max:255'],
             'foto' => ['nullable', 'image', 'mimes:png,jpg,jpeg', 'max:2048'],
-            'lecturer_id' => ['required', 'exists:' . Lecturer::class . ',id'],
+            'lecturer_id_1' => ['required', 'exists:' . Lecturer::class . ',id'],
+            'lecturer_id_2' => ['required', 'exists:' . Lecturer::class . ',id', 'different:lecturer_id_1'],
         ];
     }
 
@@ -48,7 +49,9 @@ class StudentStoreRequest extends FormRequest
             'nim.regex' => 'The nim field must be number.',
             'no-hp.regex' => 'The nim field must be number telephone.',
             'konsentrasi.in' => 'The konsentrasi field must be one of the following: rpl, multimedia, tkj.',
-            'lecturer_id.exists' => 'The selected dosen pembimbing is invalid.',
+            'lecturer_id_1.exists' => 'The selected dosen pembimbing 1 is invalid.',
+            'lecturer_id_2.exists' => 'The selected dosen pembimbing 2 is invalid.',
+            'lecturer_id_2.different' => 'The dosen pembimbing 2 and dosen pembimbing 1 must be different.',
         ];
     }
 }

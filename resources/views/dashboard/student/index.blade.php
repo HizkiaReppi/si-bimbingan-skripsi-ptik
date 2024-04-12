@@ -15,7 +15,8 @@
                         <th class="text-center">Nama</th>
                         <th class="text-center">NIM</th>
                         <th class="text-center">Angkatan</th>
-                        <th class="text-center">Dosen Pembimbing</th>
+                        <th class="text-center">Dosen Pembimbing 1</th>
+                        <th class="text-center">Dosen Pembimbing 2</th>
                         <th class="text-center">Aksi</th>
                     </tr>
                 </thead>
@@ -25,7 +26,8 @@
                             <td class="fw-medium">{{ $student->fullname }}</td>
                             <td class="text-center">{{ $student->nim }}</td>
                             <td class="text-center">{{ $student->batch }}</td>
-                            <td class="text-center">{{ $student->supervisorFullname }}</td>
+                            <td class="text-start">{{ $student->firstSupervisorFullname }}</td>
+                            <td class="text-start">{{ $student->secondSupervisorFullname }}</td>
                             <td class="d-flex justify-content-center">
                                 <div class="dropdown">
                                     <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
