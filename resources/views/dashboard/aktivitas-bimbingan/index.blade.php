@@ -26,16 +26,14 @@
                         <tr>
                             <td class="text-center">{{ $guidance->student->nim }}</td>
                             <td>{{ $guidance->student->fullname }}</td>
-                            <td>{{ $guidance->student->supervisorFullname }}</td>
+                            <td>{{ $guidance->lecturer->fullname }}</td>
                             <td class="text-center">{{ $guidance->guidance_number }}</td>
                             <td class="fw-medium">{{ $guidance->topic }}</td>
                             <td class="text-center">{{ $guidance->schedule }}</td>
-                            @if ($guidance->status == 'pending')
+                            @if ($guidance->status_request == 'pending')
                                 <td class="text-center text-info text-capitalize">Diajukan</td>
-                            @elseif ($guidance->status == 'approved')
+                            @elseif ($guidance->status_request == 'approved')
                                 <td class="text-center text-success text-capitalize">Disetujui</td>
-                            @elseif ($guidance->status == 'rejected')
-                                <td class="text-center text-danger text-capitalize">Ditolak</td>
                             @endif
                             <td class="text-center">
                                 <div class="dropdown">

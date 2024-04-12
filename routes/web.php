@@ -23,7 +23,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('/student', StudentController::class)->names('dashboard.student');
     Route::resource('/kajur', HeadOfDepartementController::class)->names('dashboard.kajur');
     Route::get('/bimbingan', [GuidanceController::class, 'index'])->name('dashboard.bimbingan.index');
-    Route::resource('/ujian', ExamResultController::class)->names('dashboard.ujian');
+
+    Route::get('/ujian', [ExamResultController::class, 'index'])->name('dashboard.ujian.index');
+    Route::post('/ujian', [ExamResultController::class, 'store'])->name('dashboard.ujian.store');
+    Route::get('/ujian/{ujian}', [ExamResultController::class, 'show'])->name('dashboard.ujian.show');
+    Route::put('/ujian/{ujian}', [ExamResultController::class, 'update'])->name('dashboard.ujian.update');
 
     Route::get('/bimbingan/dosen-pembimbing-1', [GuidanceController::class, 'index'])->name('dashboard.bimbingan-1.index');
     Route::get('/bimbingan/dosen-pembimbing-1/create', [GuidanceController::class, 'create'])->name('dashboard.bimbingan-1.create');

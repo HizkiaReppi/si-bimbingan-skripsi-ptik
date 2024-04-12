@@ -84,6 +84,11 @@
 
     <script>
         new DataTable('#table');
+
+        const table2 = document.getElementById('table-2');
+        if (table2) {
+            new DataTable('#table-2');
+        }
     </script>
 
     <!-- Place this tag in your head or just before your close body tag. -->

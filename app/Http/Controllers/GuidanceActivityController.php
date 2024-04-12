@@ -22,13 +22,7 @@ class GuidanceActivityController extends Controller
      */
     public function index(): View
     {
-        $latestGuidances = Guidance::latest()->get();
-        $guidances = collect([]);
-        $groupedGuidances = $latestGuidances->groupBy('student_id');
-
-        foreach ($groupedGuidances as $group) {
-            $guidances->add($group->first());
-        }
+        $guidances = Guidance::latest()->take(50)->get();
 
         return view('dashboard.aktivitas-bimbingan.index', compact('guidances'));
     }

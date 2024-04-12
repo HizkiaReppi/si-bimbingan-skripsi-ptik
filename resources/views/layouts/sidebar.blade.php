@@ -99,6 +99,12 @@
                     <div data-i18n="Aktivitas Bimbingan">Aktivitas Bimbingan</div>
                 </a>
             </li>
+            <li class="menu-item {{ request()->routeIs('dashboard.ujian.*') ? 'active' : '' }}">
+                <a href="{{ route('dashboard.ujian.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons fa-solid fa-clipboard-list"></i>
+                    <div data-i18n="Pengajuan Ujian Hasil">Pengajuan Ujian Hasil</div>
+                </a>
+            </li>
         @elsecan('admin')
             <li class="menu-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                 <a href="{{ route('dashboard') }}" class="menu-link">

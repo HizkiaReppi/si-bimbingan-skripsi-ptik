@@ -7,23 +7,24 @@ use App\Models\ExamResult;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
+use Illuminate\Support\Facades\Gate;
 
 class ExamResultController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
-        //
-    }
+        if (!Gate::allows('HoD')) {
+            abort(403);
+        }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $requestExams = ExamResult::where('status_request', 'pending')->latest()->take(50)->get();
+        $approvedExams = ExamResult::where('status_request', 'approved')->latest()->take(50)->get();
+
+        return view('dashboard.ujian-hasil.index', compact('requestExams', 'approvedExams'));
     }
 
     /**
@@ -31,6 +32,10 @@ class ExamResultController extends Controller
      */
     public function store(ExamResultStoreRequest $request): RedirectResponse
     {
+        if (!Gate::allows('student')) {
+            abort(403);
+        }
+
         $validatedData = $request->validated();
 
         DB::beginTransaction();
@@ -55,32 +60,39 @@ class ExamResultController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ExamResult $examResult)
+    public function show(ExamResult $ujian): View
     {
-        //
-    }
+        if (!Gate::allows('HoD')) {
+            abort(403);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(ExamResult $examResult)
-    {
-        //
+        return view('dashboard.ujian-hasil.show', compact('ujian'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ExamResult $examResult)
+    public function update(Request $request, ExamResult $ujian)
     {
-        //
-    }
+        if (!Gate::allows('HoD')) {
+            abort(403);
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(ExamResult $examResult)
-    {
-        //
+        $validatedData = $request->validate([
+            'status_request' => ['required', 'in:approved,pending'],
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            $ujian->status_request = $validatedData['status_request'];
+            $ujian->save();
+
+            DB::commit();
+            return redirect()->route('dashboard.ujian.index')->with('toast_success', 'Berhasil mengubah status pengajuan ujian.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Gagal mengubah status pengajuan ujian. Silahkan coba lagi!');
+        }
     }
 }
