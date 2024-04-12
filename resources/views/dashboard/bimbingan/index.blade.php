@@ -7,10 +7,9 @@
         <div class="card mb-4">
             <div class="d-flex justify-content-between align-items-center">
                 <h5 class="card-header">Status Pengajuan Ujian Hasil</h5>
-                @if ($examResult === 'approved')
+                @if ($examResult->status_request == 'approved')
                     <a href="#" class="btn btn-primary me-4">Cetak Kartu Ujian</a>
                 @endif
-
             </div>
             <div class="table-responsive text-wrap px-4 pb-4">
                 <table class="table">
@@ -19,7 +18,9 @@
                             <th class="text-center">Judul Skripsi</th>
                             <th class="text-center text-nowrap">Tanggal Registrasi</th>
                             <th class="text-center text-nowrap">Persetujuan Ketua Jurusan</th>
-                            <th class="text-center">Aksi</th>
+                            @if ($examResult->status_request == 'pending')
+                                <th class="text-center">Aksi</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
@@ -35,10 +36,12 @@
                                     <span class="badge bg-success">Disetujui</span>
                                 </td>
                             @endif
-                            <td class="text-center">
-                                <a href="{{ route('dashboard.ujian.destroy', $examResult->id) }}"
-                                    data-confirm-delete="true">Batal</a>
-                            </td>
+                            @if ($examResult->status_request == 'pending')
+                                <td class="text-center">
+                                    <a href="{{ route('dashboard.ujian.destroy', $examResult->id) }}"
+                                        data-confirm-delete="true">Batal</a>
+                                </td>
+                            @endif
                         </tr>
                     </tbody>
                 </table>

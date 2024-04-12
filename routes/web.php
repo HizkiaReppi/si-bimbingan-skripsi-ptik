@@ -28,6 +28,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/ujian', [ExamResultController::class, 'store'])->name('dashboard.ujian.store');
     Route::get('/ujian/{ujian}', [ExamResultController::class, 'show'])->name('dashboard.ujian.show');
     Route::put('/ujian/{ujian}', [ExamResultController::class, 'update'])->name('dashboard.ujian.update');
+    Route::delete('/ujian/{ujian}', [ExamResultController::class, 'destroy'])->name('dashboard.ujian.destroy');
 
     Route::get('/bimbingan/dosen-pembimbing-1', [GuidanceController::class, 'index'])->name('dashboard.bimbingan-1.index');
     Route::get('/bimbingan/dosen-pembimbing-1/create', [GuidanceController::class, 'create'])->name('dashboard.bimbingan-1.create');

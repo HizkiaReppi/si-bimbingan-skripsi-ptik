@@ -95,4 +95,26 @@ class ExamResultController extends Controller
             return back()->with('error', 'Gagal mengubah status pengajuan ujian. Silahkan coba lagi!');
         }
     }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(ExamResult $ujian)
+    {
+        if (!Gate::allows('student')) {
+            abort(403);
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $ujian->delete();
+
+            DB::commit();
+            return redirect()->route('dashboard.bimbingan.index')->with('toast_success', 'Berhasil menghapus pengajuan ujian.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Gagal menghapus pengajuan ujian. Silahkan coba lagi!');
+        }
+    }
 }
