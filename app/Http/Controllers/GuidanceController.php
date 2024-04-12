@@ -91,28 +91,35 @@ class GuidanceController extends Controller
         DB::beginTransaction();
 
         try {
-            $thesis = new Thesis();
-            $thesis->student_id = $student->id;
-            $thesis->title = $validatedData['judul-skripsi'];
-
-            if ($request->hasFile('file-skripsi')) {
-                $oldImagePath = 'public/file/skripsi/' . $thesis->file;
-                if (Storage::exists($oldImagePath)) {
-                    Storage::delete($oldImagePath);
-                }
-
-                $file = $request->file('file-skripsi');
-                $fileName = time() . '-' . $student->nim . '.' . $file->getClientOriginalExtension();
-                $file->storeAs('public/file/skripsi', $fileName);
-                $thesis->file = $fileName;
-            }
-
-            $thesis->save();
+            $latestThesis = Thesis::where('student_id', $student->id)
+            ->latest()
+            ->first();
 
             $bimbingan = new Guidance();
+            
+            if ($latestThesis && $latestThesis->title != $validatedData['judul-skripsi']) {
+                $thesis = new Thesis();
+                $thesis->student_id = $student->id;
+                $thesis->title = $validatedData['judul-skripsi'];
 
-            $bimbingan->thesis_id = $thesis->id;
-            $bimbingan->student_id = $student->id;
+                if ($request->hasFile('file-skripsi')) {
+                    $oldImagePath = 'public/file/skripsi/' . $thesis->file;
+                    if (Storage::exists($oldImagePath)) {
+                        Storage::delete($oldImagePath);
+                    }
+    
+                    $file = $request->file('file-skripsi');
+                    $fileName = time() . '-' . $student->nim . '.' . $file->getClientOriginalExtension();
+                    $file->storeAs('public/file/skripsi', $fileName);
+                    $thesis->file = $fileName;
+                }
+    
+                $thesis->save();
+
+                $bimbingan->thesis_id = $thesis->id;
+            } else {
+                $bimbingan->thesis_id = $latestThesis->id;
+            }
 
             if (request()->routeIs('dashboard.bimbingan-1.store')) {
                 $bimbingan->lecturer_id = $student->firstSupervisor->id;
@@ -131,6 +138,7 @@ class GuidanceController extends Controller
                     ->first();
             }
 
+            $bimbingan->student_id = $student->id;
             $bimbingan->topic = $validatedData['topik'];
             $bimbingan->schedule = $validatedData['jadwal'];
 
@@ -154,6 +162,7 @@ class GuidanceController extends Controller
             }
         } catch (\Exception $e) {
             DB::rollBack();
+            dd($e->getMessage());
             if (request()->routeIs('dashboard.bimbingan-1.store')) {
                 return redirect()->route('dashboard.bimbingan-1.index')->with('toast_error', 'Bimbingan gagal ditambahkan');
             } elseif (request()->routeIs('dashboard.bimbingan-2.store')) {
