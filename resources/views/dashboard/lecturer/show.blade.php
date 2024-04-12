@@ -9,11 +9,10 @@
             <div class="d-flex flex-column align-items-start gap-4">
                 <label for="foto" class="form-label" style="margin-bottom: -10px">Foto</label>
                 @if ($lecturer->user->photo == null)
-                    <p class="border p-5 rounded"  style="margin-bottom: -15px">Tidak Ada Foto</p>
+                    <p class="border p-5 rounded" style="margin-bottom: -15px">Tidak Ada Foto</p>
                 @else
-                <img src="{{ asset('storage/images/profile-photo/' . $lecturer->user->photo) }}"
-                    alt="{{ $lecturer->fullname }}" class="d-block rounded w-100 h-100"
-                    id="foto" />
+                    <img src="{{ $lecturer->user->photoFile }}"
+                        alt="{{ $lecturer->fullname }}" class="d-block rounded" style="width: 250px" id="foto" />
                 @endif
             </div>
         </div>
@@ -21,43 +20,35 @@
             <div class="row">
                 <div class="mb-3 col-md-12">
                     <label for="firstName" class="form-label">Nama Lengkap</label>
-                    <input class="form-control" type="text" id="firstName" name="firstName"
-                        value="{{ $lecturer->fullname }}" readonly />
+                    <p class="border p-2 rounded m-0">{{ $lecturer->fullname }}</p>
                 </div>
                 <div class="mb-3 col-md-6">
                     <label for="email" class="form-label">Email</label>
-                    <input class="form-control" type="text" id="email" name="email"
-                        value="{{ $lecturer->user->email }}" readonly />
+                    <p class="border p-2 rounded m-0">{{ $lecturer->user->email }}</p>
                 </div>
                 <div class="mb-3 col-md-6">
                     <label for="no-hp" class="form-label">Nomor HP</label>
-                    <input class="form-control" type="text" id="no-hp" name="no-hp"
-                        value="{{ $lecturer->phone_number }}" readonly />
+                    <p class="border p-2 rounded m-0">{{ $lecturer->phone_number ?? '-' }}</p>
                 </div>
                 <div class="mb-3 col-md-6">
                     <label for="nip" class="form-label">NIP</label>
-                    <input type="text" class="form-control" id="nip" name="nip"
-                        value="{{ $lecturer->formattedNIP }}" readonly />
+                    <p class="border p-2 rounded m-0">{{ $lecturer->formattedNIP }}</p>
                 </div>
                 <div class="mb-3 col-md-6">
                     <label for="nidn" class="form-label">NIDN</label>
-                    <input type="text" class="form-control" id="nidn" name="nidn"
-                        value="{{ $lecturer->nidn }}" readonly />
+                    <p class="border p-2 rounded m-0">{{ $lecturer->nidn }}</p>
                 </div>
                 <div class="mb-3 col-md-6">
                     <label for="pangkat" class="form-label">Pangkat</label>
-                    <input type="text" class="form-control" id="pangkat" name="pangkat"
-                        value="{{ $lecturer->rank }}" readonly />
+                    <p class="border p-2 rounded m-0">{{ $lecturer->rank ?? '-' }}</p>
                 </div>
                 <div class="mb-3 col-md-6">
                     <label for="jabatan" class="form-label">Jabatan</label>
-                    <input type="text" class="form-control" id="jabatan" name="jabatan"
-                        value="{{ $lecturer->position }}" readonly />
+                    <p class="border p-2 rounded m-0">{{ $lecturer->position ?? '-' }}</p>
                 </div>
                 <div class="mb-3 col-md-6">
                     <label for="golongan" class="form-label">Golongan</label>
-                    <input type="text" class="form-control" id="golongan" name="golongan"
-                        value="{{ $lecturer->type }}" readonly />
+                    <p class="border p-2 rounded m-0">{{ $lecturer->type ?? '-' }}</p>
                 </div>
             </div>
             <hr>
@@ -78,7 +69,7 @@
                             @foreach ($students as $student)
                                 <tr>
                                     <td class="fw-medium">{{ $student->user->name }}</td>
-                                    <td class="text-center">{{ $student->nim }}</td>
+                                    <td class="text-center">{{ $student->formattedNIM }}</td>
                                     <td class="text-center">{{ $student->batch }}</td>
                                     <td class="text-center">{{ $student->concentration }}</td>
                                     <td class="d-flex justify-content-center">

@@ -24,6 +24,7 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
+        'photo',
         'role',
     ];
 
@@ -64,5 +65,21 @@ class User extends Authenticatable
     public function lecturer(): HasOne
     {
         return $this->hasOne(Lecturer::class);
+    }
+
+    /**
+     * Get the head of departement record associated with the user.
+     */
+    public function headOfDepartement(): HasOne
+    {
+        return $this->hasOne(HeadOfDepartement::class);
+    }
+
+    /**
+     * Get user photo.
+     */
+    public function getPhotoFileAttribute(): string
+    {
+        return $this->photo ? asset('storage/images/profile-photo/' . $this->photo) : null;
     }
 }
