@@ -13,7 +13,7 @@
                 </div>
                 <div class="mb-1 col-md-6">
                     <label for="nim" class="form-label">NIM</label>
-                    <p class="border p-2 rounded">{{ $mahasiswa_bimbingan->nim }}</p>
+                    <p class="border p-2 rounded">{{ $mahasiswa_bimbingan->formattedNIM }}</p>
                 </div>
                 <div class="mb-1 col-md-6">
                     <label for="angkatan" class="form-label">Angkatan</label>
@@ -105,7 +105,7 @@
                         @foreach ($guidances as $guidance)
                             <tr>
                                 <td class="text-center">{{ $guidance->guidance_number }}</td>
-                                <td class="fw-medium" style="width: 50px">{{ $guidance->thesis_title }}</td>
+                                <td class="fw-medium" style="width: 50px">{{ $guidance->thesis->title }}</td>
                                 <td class="fw-medium">{{ $guidance->topic }}</td>
                                 <td class="text-center">{{ $guidance->schedule }}</td>
                                 @if ($guidance->status == 'pending')

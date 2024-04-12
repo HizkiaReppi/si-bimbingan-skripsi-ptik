@@ -18,27 +18,48 @@ const previewImage = () => {
     }
 };
 
-document.querySelector("#foto").addEventListener("change", previewImage);
+const foto = document.querySelector("#foto");
+if (foto) {
+    foto.addEventListener("change", previewImage);
+}
 
-document.querySelector("#no-hp").addEventListener("change", function (e) {
-    let phone = e.target.value;
-    if (phone.startsWith("+62")) {
-        phone = "0" + phone.slice(3);
-        e.target.value = phone;
-    }
-});
+const phoneNumber = document.querySelector("#no-hp");
+if (phoneNumber) {
+    phoneNumber.addEventListener("change", function (e) {
+        let phone = e.target.value;
+        if (phone.startsWith("+62")) {
+            phone = "0" + phone.slice(3);
+            e.target.value = phone;
+        }
+    });
+}
 
 const emailInput = document.querySelector("#email");
 const nimInput = document.querySelector("#nim");
 const formEmailHelp = document.querySelector("#form-email-help");
 
-nimInput.addEventListener("change", function (e) {
-    const nim = e.target.value;
-    const defaultEmailDomain = "@unima.ac.id";
-    emailInput.value = nim + defaultEmailDomain;
+if (emailInput && nimInput && formEmailHelp) {
+    nimInput.addEventListener("change", function (e) {
+        const nim = e.target.value;
+        const defaultEmailDomain = "@unima.ac.id";
+        emailInput.value = nim + defaultEmailDomain;
 
-    formEmailHelp.innerHTML = `<small>Email Otomatis Diganti Menjadi ${emailInput.value}. Silahkan Diganti Jika Kurang Sesuai.</small>`;
-    setTimeout(() => {
-        formEmailHelp.innerHTML = "";
-    }, 10000);
-});
+        formEmailHelp.innerHTML = `<small>Email Otomatis Diganti Menjadi ${emailInput.value}. Silahkan Diganti Jika Kurang Sesuai.</small>`;
+        setTimeout(() => {
+            formEmailHelp.innerHTML = "";
+        }, 10000);
+    });
+}
+
+function generateMinDateTime() {
+    let now = new Date();
+    const offset = now.getTimezoneOffset() * 60000;
+    now = new Date(now.getTime() - offset);
+    const minDate = new Date(now.getTime() + 2 * 60 * 60 * 1000);
+
+    const minDateTime = minDate.toISOString().slice(0, 16);
+
+    return minDateTime;
+}
+
+// document.getElementById("jadwal").setAttribute("min", generateMinDateTime());

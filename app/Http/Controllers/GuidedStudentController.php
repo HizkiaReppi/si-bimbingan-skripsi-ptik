@@ -13,7 +13,9 @@ class GuidedStudentController extends Controller
      */
     public function index(): View
     {
-        $students = Student::where('lecturer_id', auth()->user()->lecturer->id)->get();
+        $students = Student::where('lecturer_id_1', auth()->user()->lecturer->id)
+            ->orWhere('lecturer_id_2', auth()->user()->lecturer->id)
+            ->get();
 
         return view('dashboard.mahasiswa-bimbingan.index', compact('students'));
     }

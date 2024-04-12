@@ -18,4 +18,16 @@ class Thesis extends Model
         return $this->belongsTo(Thesis::class);
     }
 
+    public function student(): BelongsTo
+    {
+        return $this->belongsTo(Student::class);
+    }
+
+    /**
+     * Get thesis file path.
+     */
+    public function getFilePathAttribute(): string
+    {
+        return $this->file ? asset('storage/file/skripsi/' . $this->file) : null;
+    }
 }

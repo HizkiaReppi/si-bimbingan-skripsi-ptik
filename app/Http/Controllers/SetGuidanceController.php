@@ -23,15 +23,27 @@ class SetGuidanceController extends Controller
      */
     public function index(): View
     {
-        $students = Student::where('lecturer_id', auth()->user()->lecturer->id)->get();
+        $students = Student::where('lecturer_id_1', auth()->user()->lecturer->id)
+            ->orWhere('lecturer_id_2', auth()->user()->lecturer->id)
+            ->get();
+
         $guidances = [];
 
         foreach ($students as $student) {
-            $guidance = Guidance::where('student_id', $student->id)
-                ->latest()
+            $guidanceLecturer1 = Guidance::where('student_id', $student->id)
+                ->where('lecturer_id', $student->lecturer_id_1)
                 ->get();
 
-            $guidances[$student->id] = $guidance;
+            $guidanceLecturer2 = Guidance::where('student_id', $student->id)
+                ->where('lecturer_id', $student->lecturer_id_2)
+                ->get();
+
+            $mergedGuidance = $guidanceLecturer1->merge($guidanceLecturer2);
+            $nonEmptyGuidances = $mergedGuidance->filter(fn ($guidance) => !is_null($guidance));
+
+            if ($nonEmptyGuidances->isNotEmpty()) {
+                $guidances[$student->id] = $nonEmptyGuidances;
+            }
         }
 
         return view('dashboard.atur-jadwal-bimbingan.index', compact('guidances'));
@@ -42,8 +54,7 @@ class SetGuidanceController extends Controller
      */
     public function show(Guidance $atur_jadwal_bimbingan): View
     {
-        $statuses = ['approved' => 'Setujui', 'rejected' => 'Tolak'];
-        return view('dashboard.atur-jadwal-bimbingan.show', compact('atur_jadwal_bimbingan', 'statuses'));
+        return view('dashboard.atur-jadwal-bimbingan.show', compact('atur_jadwal_bimbingan'));
     }
 
     /**
@@ -57,7 +68,7 @@ class SetGuidanceController extends Controller
 
         try {
             $atur_jadwal_bimbingan->schedule = $validatedData['jadwal'];
-            $atur_jadwal_bimbingan->status = $validatedData['status'];
+            $atur_jadwal_bimbingan->status_request = $validatedData['status_request'];
 
             if (isset($validatedData['catatan-hasil-review'])) {
                 $atur_jadwal_bimbingan->lecturer_notes = $validatedData['catatan-hasil-review'];

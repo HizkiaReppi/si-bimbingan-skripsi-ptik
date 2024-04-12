@@ -21,36 +21,34 @@
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
-                    @foreach ($guidances as $guidance)
-                        @if ($guidance != null)
-                            @foreach ($guidance as $g)
+                    @if (count($guidances) > 0)
+                        @foreach ($guidances as $studentId => $guidanceList)
+                            @foreach ($guidanceList as $guidance)
                                 <tr>
-                                    <td class="fw-medium">{{ $g->student->nim }}</td>
-                                    <td>{{ $g->student->fullname }}</td>
-                                    <td class="text-center">{{ $g->topic }}</td>
-                                    <td class="text-center">{{ $g->schedule }}</td>
-                                    <td class="text-center">{{ $g->guidance_number }}</td>
-                                    @if ($g->status == 'pending')
+                                    <td class="fw-medium">{{ $guidance->student->formattedNIM }}</td>
+                                    <td>{{ $guidance->student->fullname }}</td>
+                                    <td class="text-center">{{ $guidance->topic }}</td>
+                                    <td class="text-center">{{ $guidance->schedule }}</td>
+                                    <td class="text-center">{{ $guidance->guidance_number }}</td>
+                                    @if ($guidance->status_request == 'pending')
                                         <td class="text-center text-info">Diajukan</td>
-                                    @elseif ($g->status == 'approved')
+                                    @elseif ($guidance->status_request == 'approved')
                                         <td class="text-center text-success">Disetujui</td>
-                                    @elseif ($g->status == 'rejected')
-                                        <td class="text-center text-danger">Ditolak</td>
                                     @endif
                                     <td class="text-center">
                                         <a class="dropdown-item"
-                                            href="{{ route('dashboard.atur-jadwal-bimbingan.show', $g->id) }}">
+                                            href="{{ route('dashboard.atur-jadwal-bimbingan.show', $guidance->id) }}">
                                             Detail
                                         </a>
                                     </td>
                                 </tr>
                             @endforeach
-                        @else
-                            <tr>
-                                <td colspan="5">Belum Ada Mahasiswa Yang Mengajukan Bimbingan</td>
-                            </tr>
-                        @endif
-                    @endforeach
+                        @endforeach
+                    @else
+                        <tr>
+                            <td colspan="5">Belum Ada Mahasiswa Yang Mengajukan Bimbingan</td>
+                        </tr>
+                    @endif
                 </tbody>
             </table>
         </div>

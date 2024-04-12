@@ -22,7 +22,7 @@
                 <tbody class="table-border-bottom-0">
                     @foreach ($students as $student)
                         <tr>
-                            <td class="text-center fw-medium">{{ $student->nim }}</td>
+                            <td class="text-center fw-medium">{{ $student->formattedNIM }}</td>
                             <td class="text-nowrap">{{ $student->fullname }}</td>
                             <td class="text-center">{{ $student->batch }}</td>
                             <td class="text-center">{{ $student->concentration }}</td>
