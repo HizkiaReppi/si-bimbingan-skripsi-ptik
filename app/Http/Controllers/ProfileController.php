@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AdminProfileUpdateRequest;
 use App\Http\Requests\LecturerProfileUpdateRequest;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Requests\StudentProfileUpdateRequest;
 use App\Models\Student;
 use App\Models\Lecturer;
 use App\Models\HeadOfDepartement;
@@ -79,6 +80,11 @@ class ProfileController extends Controller
         DB::beginTransaction();
 
         try {
+            if (isset($validatedData['fullname'])) {
+                $request->user()->name = $validatedData['fullname'];
+                $request->user()->save();
+            }
+
             if (isset($validatedData['nidn'])) {
                 $request->user()->username = $validatedData['nidn'];
                 $request->user()->save();
@@ -139,6 +145,70 @@ class ProfileController extends Controller
 
                 $file = $request->file('foto');
                 $fileName = time() . '_dosen_' . $request->user()->username . '.' . $file->getClientOriginalExtension();
+
+                $file->storeAs('public/images/profile-photo', $fileName);
+
+                $request->user()->photo = $fileName;
+                $request->user()->save();
+            }
+
+            DB::commit();
+
+            return Redirect::route('profile.edit')->with('toast_success', 'Profil berhasil diupdate');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return Redirect::route('profile.edit')->with('toast_error', 'Profil gagal diupdate');
+        }
+    }
+
+    /**
+     * Update the student's profile information.
+     */
+    public function update_student(StudentProfileUpdateRequest $request): RedirectResponse
+    {
+        $validatedData = $request->validated();
+
+        DB::beginTransaction();
+
+        try {
+            if (isset($validatedData['fullname'])) {
+                $request->user()->name = $validatedData['fullname'];
+                $request->user()->save();
+            }
+
+            if (isset($validatedData['email'])) {
+                $request->user()->email = $validatedData['email'];
+                $request->user()->save();
+            }
+
+            if ($request->user()->isDirty('email')) {
+                $request->user()->email_verified_at = null;
+                $request->user()->save();
+            }
+
+            if (isset($validatedData['no-hp'])) {
+                $request->user()->student->phone_number = $validatedData['no-hp'];
+                $request->user()->student->save();
+            }
+
+            if (isset($validatedData['konsentrasi'])) {
+                $request->user()->student->concentration = $validatedData['konsentrasi'];
+                $request->user()->student->save();
+            }
+
+            if (isset($validatedData['alamat'])) {
+                $request->user()->student->address = $validatedData['alamat'];
+                $request->user()->student->save();
+            }
+
+            if ($request->hasFile('foto')) {
+                $oldImagePath = 'public/images/profile-photo/' . $request->user()->photo;
+                if (Storage::exists($oldImagePath)) {
+                    Storage::delete($oldImagePath);
+                }
+
+                $file = $request->file('foto');
+                $fileName = time() . '_mahasiswa_' . $request->user()->username . '.' . $file->getClientOriginalExtension();
 
                 $file->storeAs('public/images/profile-photo', $fileName);
 
