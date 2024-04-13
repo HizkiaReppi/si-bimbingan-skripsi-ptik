@@ -55,9 +55,12 @@ class GuidanceController extends Controller
                 ->latest()
                 ->first();
 
-            $examResult = ExamResult::where('student_id', $student->id)
-                ->where('thesis_id', $thesis->id)
-                ->first();
+            $examResult = null;
+            if ($thesis) {
+                $examResult = ExamResult::where('student_id', $student->id)
+                    ->where('thesis_id', $thesis->id)
+                    ->first();
+            }
 
             $title = 'Apakah anda yakin?';
             $text = 'Data pengajuan ujian Anda akan dihapus!';
@@ -104,11 +107,11 @@ class GuidanceController extends Controller
 
         try {
             $latestThesis = Thesis::where('student_id', $student->id)
-            ->latest()
-            ->first();
+                ->latest()
+                ->first();
 
             $bimbingan = new Guidance();
-            
+
             if ($latestThesis && $latestThesis->title != $validatedData['judul-skripsi']) {
                 $thesis = new Thesis();
                 $thesis->student_id = $student->id;
@@ -119,13 +122,13 @@ class GuidanceController extends Controller
                     if (Storage::exists($oldImagePath)) {
                         Storage::delete($oldImagePath);
                     }
-    
+
                     $file = $request->file('file-skripsi');
                     $fileName = time() . '-' . $student->nim . '.' . $file->getClientOriginalExtension();
                     $file->storeAs('public/file/skripsi', $fileName);
                     $thesis->file = $fileName;
                 }
-    
+
                 $thesis->save();
 
                 $bimbingan->thesis_id = $thesis->id;
@@ -140,7 +143,6 @@ class GuidanceController extends Controller
                     ->where('lecturer_id', $student->firstSupervisor->id)
                     ->latest()
                     ->first();
-                    
             } elseif (request()->routeIs('dashboard.bimbingan-2.store')) {
                 $bimbingan->lecturer_id = $student->secondSupervisor->id;
 
