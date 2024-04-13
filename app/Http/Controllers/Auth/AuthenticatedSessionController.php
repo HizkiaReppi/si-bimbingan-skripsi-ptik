@@ -37,7 +37,7 @@ class AuthenticatedSessionController extends Controller
         } else if(Auth::user()->role == 'HoD'){
             return redirect()->intended(route('dashboard.aktivitas-bimbingan.index', absolute: false));
         } else {
-            return redirect()->intended(route('dashboard', absolute: false));
+            return redirect()->intended('/');
         }
     }
 

@@ -21,34 +21,28 @@
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
-                    @if (count($guidances) > 0)
-                        @foreach ($guidances as $studentId => $guidanceList)
-                            @foreach ($guidanceList as $guidance)
-                                <tr>
-                                    <td class="fw-medium text-nowrap">{{ $guidance->student->formattedNIM }}</td>
-                                    <td>{{ $guidance->student->fullname }}</td>
-                                    <td class="text-center">{{ $guidance->topic }}</td>
-                                    <td class="text-center">{{ $guidance->schedule }}</td>
-                                    <td class="text-center">{{ $guidance->guidance_number }}</td>
-                                    @if ($guidance->status_request == 'pending')
-                                        <td class="text-center text-info">Diajukan</td>
-                                    @elseif ($guidance->status_request == 'approved')
-                                        <td class="text-center text-success">Disetujui</td>
-                                    @endif
-                                    <td class="text-center">
-                                        <a class="dropdown-item"
-                                            href="{{ route('dashboard.atur-jadwal-bimbingan.show', $guidance->id) }}">
-                                            Detail
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
+                    @foreach ($guidances as $studentId => $guidanceList)
+                        @foreach ($guidanceList as $guidance)
+                            <tr>
+                                <td class="fw-medium text-nowrap">{{ $guidance->student->formattedNIM }}</td>
+                                <td>{{ $guidance->student->fullname }}</td>
+                                <td class="text-center">{{ $guidance->topic }}</td>
+                                <td class="text-center">{{ $guidance->schedule }}</td>
+                                <td class="text-center">{{ $guidance->guidance_number }}</td>
+                                @if ($guidance->status_request == 'pending')
+                                    <td class="text-center text-info">Diajukan</td>
+                                @elseif ($guidance->status_request == 'approved')
+                                    <td class="text-center text-success">Disetujui</td>
+                                @endif
+                                <td class="text-center">
+                                    <a class="dropdown-item"
+                                        href="{{ route('dashboard.atur-jadwal-bimbingan.show', $guidance->id) }}">
+                                        Detail
+                                    </a>
+                                </td>
+                            </tr>
                         @endforeach
-                    @else
-                        <tr>
-                            <td colspan="5">Belum Ada Mahasiswa Yang Mengajukan Bimbingan</td>
-                        </tr>
-                    @endif
+                    @endforeach
                 </tbody>
             </table>
         </div>
