@@ -311,14 +311,14 @@
         </div>
     </div>
 
-    {{-- <script>
+    <script>
         window.print();
 
         window.onafterprint = function () {
             window.close();
-            window.location.href = '/bimbingan';
+            window.history.back();
         };
-    </script> --}}
+    </script>
 </body>
 
 </html>

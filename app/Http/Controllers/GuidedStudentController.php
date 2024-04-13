@@ -5,9 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Guidance;
 use App\Models\Student;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Gate;
 
 class GuidedStudentController extends Controller
 {
+    public function __construct()
+    {
+        if (!Gate::allows('student')) {
+            abort(403);
+        }
+    }
+
     /**
      * Display a listing of the resource.
      */

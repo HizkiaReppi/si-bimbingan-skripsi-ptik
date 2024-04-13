@@ -6,11 +6,16 @@ use App\Models\Guidance;
 use Illuminate\Http\Request;
 use App\Models\HeadOfDepartement;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Gate;
 
 class PrintGuidanceHistoryController extends Controller
 {
     public function index(Request $request): View
     {
+        if (!Gate::allows('student')) {
+            abort(403);
+        }
+
         $student = auth()->user()->student;
         $lecturer_id = null;
 

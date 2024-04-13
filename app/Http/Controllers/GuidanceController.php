@@ -202,6 +202,10 @@ class GuidanceController extends Controller
      */
     public function edit(Guidance $bimbingan): View
     {
+        if ($bimbingan->status_request !== 'pending') {
+            abort(403);
+        }
+
         if (request()->routeIs('dashboard.bimbingan-1.edit')) {
             return view('dashboard.bimbingan.dosen-pembimbing-1.edit', compact('bimbingan'));
         } elseif (request()->routeIs('dashboard.bimbingan-2.edit')) {
@@ -214,6 +218,10 @@ class GuidanceController extends Controller
      */
     public function update(GuidanceUpdateRequest $request, Guidance $bimbingan): RedirectResponse
     {
+        if ($bimbingan->status_request !== 'pending') {
+            abort(403);
+        }
+
         $validatedData = $request->validated();
 
         DB::beginTransaction();
@@ -257,6 +265,10 @@ class GuidanceController extends Controller
      */
     public function destroy(Guidance $bimbingan): RedirectResponse
     {
+        if ($bimbingan->status_request !== 'pending') {
+            abort(403);
+        }
+        
         DB::beginTransaction();
 
         try {
