@@ -13,6 +13,6 @@ class PrintExamApprovalController extends Controller
         $student = auth()->user()->student;
         $headOfDepartement = HeadOfDepartement::first();
 
-        return view('dashboard.persetujuan-ujian.index', compact('student', 'headOfDepartement'));
+        return view('dashboard.print.persetujuan-ujian.index', compact('student', 'headOfDepartement'));
     }
 }

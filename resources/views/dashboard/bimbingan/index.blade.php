@@ -9,7 +9,7 @@
                 <h5 class="card-header">Status Pengajuan Ujian Hasil</h5>
                 @if ($examResult->status_request == 'approved')
                     <a href="{{ route('dashboard.cetak-persetujuan-ujian') }}" class="btn btn-primary me-4">
-                        <i class="fa fa-print me-3"></i>
+                        <i class="fa fa-print me-2"></i>
                         Cetak Persetujuan Ujian
                     </a>
                 @endif

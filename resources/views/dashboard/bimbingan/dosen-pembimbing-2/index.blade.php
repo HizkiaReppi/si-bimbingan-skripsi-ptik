@@ -6,7 +6,15 @@
     <div class="card">
         <div class="d-flex justify-content-between align-items-center">
             <h5 class="card-header">Bimbingan Dengan Dosen Pembimbing {{ auth()?->user()?->student?->secondSupervisorFullname }}</h5>
-            <a href="{{ route('dashboard.bimbingan-2.create') }}" class="btn btn-primary me-4">Request Bimbingan</a>
+            <div>
+                @if ($guidances)
+                <a href="{{ route('dashboard.bimbingan-2.print') }}" class="btn btn-secondary me-2">
+                    <i class="fa fa-print me-2"></i>
+                    Cetak Kartu Bimbingan
+                </a>
+                @endif
+                <a href="{{ route('dashboard.bimbingan-2.create') }}" class="btn btn-primary me-4">Request Bimbingan</a>
+            </div>
         </div>
         <div class="table-responsive text-wrap px-4 pb-4">
             <table class="table" id="table">

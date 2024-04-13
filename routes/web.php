@@ -8,6 +8,7 @@ use App\Http\Controllers\GuidedStudentController;
 use App\Http\Controllers\HeadOfDepartementController;
 use App\Http\Controllers\LecturerController;
 use App\Http\Controllers\PrintExamApprovalController;
+use App\Http\Controllers\PrintGuidanceHistoryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SetGuidanceController;
 use App\Http\Controllers\StudentController;
@@ -33,6 +34,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/bimbingan/dosen-pembimbing-1', [GuidanceController::class, 'index'])->name('dashboard.bimbingan-1.index');
     Route::get('/bimbingan/dosen-pembimbing-1/create', [GuidanceController::class, 'create'])->name('dashboard.bimbingan-1.create');
+    Route::get('/bimbingan/dosen-pembimbing-1/print', [PrintGuidanceHistoryController::class, 'index'])->name('dashboard.bimbingan-1.print');
     Route::post('/bimbingan/dosen-pembimbing-1', [GuidanceController::class, 'store'])->name('dashboard.bimbingan-1.store');
     Route::get('/bimbingan/dosen-pembimbing-1/{bimbingan}', [GuidanceController::class, 'show'])->name('dashboard.bimbingan-1.show');
     Route::get('/bimbingan/dosen-pembimbing-1/{bimbingan}/edit', [GuidanceController::class, 'edit'])->name('dashboard.bimbingan-1.edit');
@@ -41,6 +43,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/bimbingan/dosen-pembimbing-2', [GuidanceController::class, 'index'])->name('dashboard.bimbingan-2.index');
     Route::get('/bimbingan/dosen-pembimbing-2/create', [GuidanceController::class, 'create'])->name('dashboard.bimbingan-2.create');
+    Route::get('/bimbingan/dosen-pembimbing-2/print', [PrintGuidanceHistoryController::class, 'index'])->name('dashboard.bimbingan-2.print');
     Route::post('/bimbingan/dosen-pembimbing-2', [GuidanceController::class, 'store'])->name('dashboard.bimbingan-2.store');
     Route::get('/bimbingan/dosen-pembimbing-2/{bimbingan}', [GuidanceController::class, 'show'])->name('dashboard.bimbingan-2.show');
     Route::get('/bimbingan/dosen-pembimbing-2/{bimbingan}/edit', [GuidanceController::class, 'edit'])->name('dashboard.bimbingan-2.edit');
