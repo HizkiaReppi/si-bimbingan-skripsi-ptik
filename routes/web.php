@@ -7,6 +7,7 @@ use App\Http\Controllers\GuidanceController;
 use App\Http\Controllers\GuidedStudentController;
 use App\Http\Controllers\HeadOfDepartementController;
 use App\Http\Controllers\LecturerController;
+use App\Http\Controllers\PrintExamApprovalController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SetGuidanceController;
 use App\Http\Controllers\StudentController;
@@ -58,6 +59,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/aktivitas-bimbingan/{aktivitas_bimbingan}/edit', [GuidanceActivityController::class, 'edit'])->name('dashboard.aktivitas-bimbingan.edit');
     Route::put('/aktivitas-bimbingan/{aktivitas_bimbingan}', [GuidanceActivityController::class, 'update'])->name('dashboard.aktivitas-bimbingan.update');
     
+    Route::get('/cetak-persetujuan-ujian', [PrintExamApprovalController::class, 'index'])->name('dashboard.cetak-persetujuan-ujian');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile/admin', [ProfileController::class, 'update_admin'])->name('profile.update.admin');
     Route::patch('/profile/student', [ProfileController::class, 'update_student'])->name('profile.update.student');

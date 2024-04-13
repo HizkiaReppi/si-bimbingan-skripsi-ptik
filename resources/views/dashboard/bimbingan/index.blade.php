@@ -8,7 +8,10 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h5 class="card-header">Status Pengajuan Ujian Hasil</h5>
                 @if ($examResult->status_request == 'approved')
-                    <a href="#" class="btn btn-primary me-4">Cetak Kartu Ujian</a>
+                    <a href="{{ route('dashboard.cetak-persetujuan-ujian') }}" class="btn btn-primary me-4">
+                        <i class="fa fa-print me-3"></i>
+                        Cetak Persetujuan Ujian
+                    </a>
                 @endif
             </div>
             <div class="table-responsive text-wrap px-4 pb-4">
