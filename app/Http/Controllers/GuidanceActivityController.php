@@ -12,7 +12,7 @@ class GuidanceActivityController extends Controller
 {
     public function __construct()
     {
-        if (!Gate::allows('HoD')) {
+        if (!Gate::allows('HoD') && !Gate::allows('admin')) {
             abort(403);
         }
     }

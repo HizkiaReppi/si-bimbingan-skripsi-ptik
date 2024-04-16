@@ -8,11 +8,11 @@
         <div class="card-body" style="margin-bottom: -20px">
             <div class="d-flex flex-column align-items-start gap-4">
                 <label for="foto" class="form-label" style="margin-bottom: -10px">Foto</label>
-                @if ($lecturer->user->photo == null)
+                @if ($dosen->user->photo == null)
                     <p class="border p-5 rounded" style="margin-bottom: -15px">Tidak Ada Foto</p>
                 @else
-                    <img src="{{ $lecturer->user->photoFile }}"
-                        alt="{{ $lecturer->fullname }}" class="d-block rounded" style="width: 250px" id="foto" />
+                    <img src="{{ $dosen->user->photoFile }}"
+                        alt="{{ $dosen->fullname }}" class="d-block rounded" style="width: 250px" id="foto" />
                 @endif
             </div>
         </div>
@@ -20,35 +20,35 @@
             <div class="row">
                 <div class="mb-3 col-md-12">
                     <label for="firstName" class="form-label">Nama Lengkap</label>
-                    <p class="border p-2 rounded m-0">{{ $lecturer->fullname }}</p>
+                    <p class="border p-2 rounded m-0">{{ $dosen->fullname }}</p>
                 </div>
                 <div class="mb-3 col-md-6">
                     <label for="email" class="form-label">Email</label>
-                    <p class="border p-2 rounded m-0">{{ $lecturer->user->email }}</p>
+                    <p class="border p-2 rounded m-0">{{ $dosen->user->email }}</p>
                 </div>
                 <div class="mb-3 col-md-6">
                     <label for="no-hp" class="form-label">Nomor HP</label>
-                    <p class="border p-2 rounded m-0">{{ $lecturer->phone_number ?? '-' }}</p>
+                    <p class="border p-2 rounded m-0">{{ $dosen->phone_number ?? '-' }}</p>
                 </div>
                 <div class="mb-3 col-md-6">
                     <label for="nip" class="form-label">NIP</label>
-                    <p class="border p-2 rounded m-0">{{ $lecturer->formattedNIP }}</p>
+                    <p class="border p-2 rounded m-0">{{ $dosen->formattedNIP }}</p>
                 </div>
                 <div class="mb-3 col-md-6">
                     <label for="nidn" class="form-label">NIDN</label>
-                    <p class="border p-2 rounded m-0">{{ $lecturer->nidn }}</p>
+                    <p class="border p-2 rounded m-0">{{ $dosen->nidn }}</p>
                 </div>
                 <div class="mb-3 col-md-6">
                     <label for="pangkat" class="form-label">Pangkat</label>
-                    <p class="border p-2 rounded m-0">{{ $lecturer->rank ?? '-' }}</p>
+                    <p class="border p-2 rounded m-0">{{ $dosen->rank ?? '-' }}</p>
                 </div>
                 <div class="mb-3 col-md-6">
                     <label for="jabatan" class="form-label">Jabatan</label>
-                    <p class="border p-2 rounded m-0">{{ $lecturer->position ?? '-' }}</p>
+                    <p class="border p-2 rounded m-0">{{ $dosen->position ?? '-' }}</p>
                 </div>
                 <div class="mb-3 col-md-6">
                     <label for="golongan" class="form-label">Golongan</label>
-                    <p class="border p-2 rounded m-0">{{ $lecturer->type ?? '-' }}</p>
+                    <p class="border p-2 rounded m-0">{{ $dosen->type ?? '-' }}</p>
                 </div>
             </div>
             <hr>
@@ -95,8 +95,8 @@
         </div>
         <!-- /Account -->
         <div class="d-flex mb-4 ms-3" style="margin-top: -15px">
-            <a href="{{ route('dashboard.lecturer.edit', $lecturer->id) }}" class="btn btn-primary ms-2">Edit Data</a>
-            <a href="{{ route('dashboard.lecturer.destroy', $lecturer->id) }}" class="btn btn-danger ms-2"
+            <a href="{{ route('dashboard.lecturer.edit', $dosen->id) }}" class="btn btn-primary ms-2">Edit Data</a>
+            <a href="{{ route('dashboard.lecturer.destroy', $dosen->id) }}" class="btn btn-danger ms-2"
                 data-confirm-delete="true">Hapus Data</a>
             <a href="{{ route('dashboard.lecturer.index') }}" class="btn btn-outline-secondary ms-2">Kembali</a>
         </div>

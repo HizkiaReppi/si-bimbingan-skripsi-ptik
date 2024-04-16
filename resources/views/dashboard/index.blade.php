@@ -65,7 +65,7 @@
                                     <i class="bx bx-dots-vertical-rounded"></i>
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
-                                    <a class="dropdown-item" href="javascript:void(0);">Lihat Detail</a>
+                                    <a class="dropdown-item" href="{{ route('dashboard.aktivitas-bimbingan.index') }}">Lihat Detail</a>
                                 </div>
                             </div>
                         </div>
@@ -87,11 +87,11 @@
                                     <i class="bx bx-dots-vertical-rounded"></i>
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
-                                    <a class="dropdown-item" href="javascript:void(0);">Lihat Detail</a>
+                                    <a class="dropdown-item" href="{{ route('dashboard.pengajuan-ujian-mahasiswa.index') }}">Lihat Detail</a>
                                 </div>
                             </div>
                         </div>
-                        <h3 class="card-title mb-0 mt-3">0</h3>
+                        <h3 class="card-title mb-0 mt-3">{{ $totalApprovedExamResults }}</h3>
                     </div>
                 </div>
             </div>

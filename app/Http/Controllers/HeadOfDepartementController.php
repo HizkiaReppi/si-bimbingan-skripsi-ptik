@@ -108,27 +108,27 @@ class HeadOfDepartementController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(HeadOfDepartement $kajur): View
+    public function show(HeadOfDepartement $ketua_jurusan): View
     {
         $title = 'Apakah anda yakin?';
         $text = 'Anda tidak akan bisa mengembalikannya!';
         confirmDelete($title, $text);
 
-        return view('dashboard.kajur.show', compact('kajur'));
+        return view('dashboard.kajur.show', compact('ketua_jurusan'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(HeadOfDepartement $kajur): View
+    public function edit(HeadOfDepartement $ketua_jurusan): View
     {
-        return view('dashboard.kajur.edit', compact('kajur'));
+        return view('dashboard.kajur.edit', compact('ketua_jurusan'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(LecturerUpdateRequest $request, HeadOfDepartement $kajur): RedirectResponse
+    public function update(LecturerUpdateRequest $request, HeadOfDepartement $ketua_jurusan): RedirectResponse
     {
         $validatedData = $request->validated();
 
@@ -136,41 +136,41 @@ class HeadOfDepartementController extends Controller
 
         try {
             if (isset($validatedData['nidn'])) {
-                $kajur->user->username = $validatedData['nidn'];
-                $kajur->nidn = $validatedData['nidn'];
-                $kajur->user->password = Hash::make('kajur' . $validatedData['nidn']);
+                $ketua_jurusan->user->username = $validatedData['nidn'];
+                $ketua_jurusan->nidn = $validatedData['nidn'];
+                $ketua_jurusan->user->password = Hash::make('kajur' . $validatedData['nidn']);
             }
 
             if (isset($validatedData['nip'])) {
-                $kajur->nip = $validatedData['nip'];
+                $ketua_jurusan->nip = $validatedData['nip'];
             }
 
             if (isset($validatedData['email'])) {
-                $kajur->user->email = $validatedData['email'];
+                $ketua_jurusan->user->email = $validatedData['email'];
             }
 
-            $kajur->front_degree = $validatedData['gelar-depan'];
-            $kajur->back_degree = $validatedData['gelar-belakang'];
-            $kajur->position = $validatedData['jabatan'];
-            $kajur->rank = $validatedData['pangkat'];
-            $kajur->type = $validatedData['golongan'];
-            $kajur->phone_number = $validatedData['no-hp'];
+            $ketua_jurusan->front_degree = $validatedData['gelar-depan'];
+            $ketua_jurusan->back_degree = $validatedData['gelar-belakang'];
+            $ketua_jurusan->position = $validatedData['jabatan'];
+            $ketua_jurusan->rank = $validatedData['pangkat'];
+            $ketua_jurusan->type = $validatedData['golongan'];
+            $ketua_jurusan->phone_number = $validatedData['no-hp'];
 
             if ($request->hasFile('foto')) {
-                $oldImagePath = 'public/images/profile-photo/' . $kajur->user->photo;
+                $oldImagePath = 'public/images/profile-photo/' . $ketua_jurusan->user->photo;
                 if (Storage::exists($oldImagePath)) {
                     Storage::delete($oldImagePath);
                 }
 
                 $file = $request->file('foto');
-                $fileName = time() . '_kajur_' . $kajur->user->username . '.' . $file->getClientOriginalExtension();
+                $fileName = time() . '_kajur_' . $ketua_jurusan->user->username . '.' . $file->getClientOriginalExtension();
 
                 $file->storeAs('public/images/profile-photo', $fileName);
 
-                $kajur->user->photo = $fileName;
+                $ketua_jurusan->user->photo = $fileName;
             }
 
-            $kajur->save();
+            $ketua_jurusan->save();
 
             DB::commit();
 
@@ -184,15 +184,20 @@ class HeadOfDepartementController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(HeadOfDepartement $kajur): RedirectResponse
+    public function destroy(HeadOfDepartement $ketua_jurusan): RedirectResponse
     {
         DB::beginTransaction();
 
         try {
-            $kajur->delete();
-            $kajur->user->delete();
+            $ketua_jurusan->delete();
+            $ketua_jurusan->user->delete();
 
             DB::commit();
+
+            $oldImagePath = 'public/images/profile-photo/' . $ketua_jurusan->user->foto;
+            if (Storage::exists($oldImagePath)) {
+                Storage::delete($oldImagePath);
+            }
 
             return redirect()->route('dashboard.kajur.index')->with('toast_success', 'Ketua Jurusan deleted successfully.');
         } catch (\Exception $e) {

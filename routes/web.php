@@ -16,22 +16,35 @@ use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect(route('dashboard'));
+    if(!auth()->check()) {
+        return view('auth.login'); 
+    } elseif (auth()->user()->role == 'student') {
+        return redirect()->route('dashboard.bimbingan.index');
+    } elseif (auth()->user()->role == 'lecturer') {
+        return redirect()->route('dashboard.atur-jadwal-bimbingan.index');
+    } elseif (auth()->user()->role == 'HoD') {
+        return redirect()->route('dashboard.aktivitas-bimbingan.index');
+    } elseif (auth()->user()->role == 'admin'){
+        return redirect()->route('dashboard');
+    } else {
+        abort(403);
+    }
 });
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::resource('/lecturer', LecturerController::class)->names('dashboard.lecturer');
-    Route::resource('/student', StudentController::class)->names('dashboard.student');
-    Route::resource('/kajur', HeadOfDepartementController::class)->names('dashboard.kajur');
-    Route::get('/bimbingan', [GuidanceController::class, 'index'])->name('dashboard.bimbingan.index');
+    Route::resource('/dosen', LecturerController::class)->names('dashboard.lecturer');
+    Route::resource('/mahasiswa', StudentController::class)->names('dashboard.student');
+    Route::resource('/ketua-jurusan', HeadOfDepartementController::class)->names('dashboard.kajur');
 
     Route::get('/ujian', [ExamResultController::class, 'index'])->name('dashboard.ujian.index');
     Route::post('/ujian', [ExamResultController::class, 'store'])->name('dashboard.ujian.store');
     Route::get('/ujian/{ujian}', [ExamResultController::class, 'show'])->name('dashboard.ujian.show');
     Route::put('/ujian/{ujian}', [ExamResultController::class, 'update'])->name('dashboard.ujian.update');
     Route::delete('/ujian/{ujian}', [ExamResultController::class, 'destroy'])->name('dashboard.ujian.destroy');
+
+    Route::get('/bimbingan', [GuidanceController::class, 'index'])->name('dashboard.bimbingan.index');
 
     Route::get('/bimbingan/dosen-pembimbing-1', [GuidanceController::class, 'index'])->name('dashboard.bimbingan-1.index');
     Route::get('/bimbingan/dosen-pembimbing-1/create', [GuidanceController::class, 'create'])->name('dashboard.bimbingan-1.create');
@@ -53,8 +66,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/mahasiswa-bimbingan', [GuidedStudentController::class, 'index'])->name('dashboard.mahasiswa-bimbingan.index');
     Route::get('/mahasiswa-bimbingan/{mahasiswa_bimbingan}', [GuidedStudentController::class, 'show'])->name('dashboard.mahasiswa-bimbingan.show');
-    
-    Route::get('/pengajuan-ujian-mahasiswa', [RequestExamResultController::class, 'index'])->name('dashboard.pengajuan-ujian-mahasiswa.index');
+
 
     Route::get('/atur-jadwal-bimbingan', [SetGuidanceController::class, 'index'])->name('dashboard.atur-jadwal-bimbingan.index');
     Route::get('/atur-jadwal-bimbingan/{atur_jadwal_bimbingan}', [SetGuidanceController::class, 'show'])->name('dashboard.atur-jadwal-bimbingan.show');
@@ -64,7 +76,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/aktivitas-bimbingan/{aktivitas_bimbingan}', [GuidanceActivityController::class, 'show'])->name('dashboard.aktivitas-bimbingan.show');
     Route::get('/aktivitas-bimbingan/{aktivitas_bimbingan}/edit', [GuidanceActivityController::class, 'edit'])->name('dashboard.aktivitas-bimbingan.edit');
     Route::put('/aktivitas-bimbingan/{aktivitas_bimbingan}', [GuidanceActivityController::class, 'update'])->name('dashboard.aktivitas-bimbingan.update');
-    
+
+    Route::get('/pengajuan-ujian-mahasiswa', [RequestExamResultController::class, 'index'])->name('dashboard.pengajuan-ujian-mahasiswa.index');
     Route::get('/cetak-persetujuan-ujian', [PrintExamApprovalController::class, 'index'])->name('dashboard.cetak-persetujuan-ujian');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -74,4 +87,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

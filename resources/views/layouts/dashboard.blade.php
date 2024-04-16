@@ -26,12 +26,12 @@
     <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
             <!-- Sidebar -->
-            @include('layouts.sidebar')
+            @include('components.sidebar')
 
             <!-- Layout container -->
             <div class="layout-page">
                 <!-- Navbar -->
-                @include('layouts.navbar')
+                @include('components.navbar')
                 <!-- Content wrapper -->
                 <div class="content-wrapper">
                     <!-- Content -->
@@ -64,7 +64,7 @@
                     <!-- / Content -->
 
                     <!-- Footer -->
-                    @include('layouts.footer')
+                    @include('components.footer')
 
                     <div class="content-backdrop fade"></div>
                 </div>

@@ -97,31 +97,31 @@ class LecturerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Lecturer $lecturer): View
+    public function show(Lecturer $dosen): View
     {
         $title = 'Apakah anda yakin?';
         $text = 'Anda tidak akan bisa mengembalikannya!';
         confirmDelete($title, $text);
 
-        $students = Student::where('lecturer_id_1', $lecturer->id)
-            ->orWhere('lecturer_id_2', $lecturer->id)
+        $students = Student::where('lecturer_id_1', $dosen->id)
+            ->orWhere('lecturer_id_2', $dosen->id)
             ->get();
 
-        return view('dashboard.lecturer.show', compact('lecturer', 'students'));
+        return view('dashboard.lecturer.show', compact('dosen', 'students'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Lecturer $lecturer): View
+    public function edit(Lecturer $dosen): View
     {
-        return view('dashboard.lecturer.edit', compact('lecturer'));
+        return view('dashboard.lecturer.edit', compact('dosen'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(LecturerUpdateRequest $request, Lecturer $lecturer)
+    public function update(LecturerUpdateRequest $request, Lecturer $dosen)
     {
         $validatedData = $request->validated();
 
@@ -129,44 +129,44 @@ class LecturerController extends Controller
 
         try {
             if (isset($validatedData['nidn'])) {
-                $lecturer->user->username = $validatedData['nidn'];
-                $lecturer->nidn = $validatedData['nidn'];
-                $lecturer->user->password = Hash::make($validatedData['nidn']);
+                $dosen->user->username = $validatedData['nidn'];
+                $dosen->nidn = $validatedData['nidn'];
+                $dosen->user->password = Hash::make($validatedData['nidn']);
             }
 
             if (isset($validatedData['email'])) {
-                $lecturer->user->email = $validatedData['email'];
+                $dosen->user->email = $validatedData['email'];
             }
 
             if (isset($validatedData['nip'])) {
-                $lecturer->nip = $validatedData['nip'];
+                $dosen->nip = $validatedData['nip'];
             }
 
-            $lecturer->user->name = $validatedData['fullname'];
-            $lecturer->user->save();
+            $dosen->user->name = $validatedData['fullname'];
+            $dosen->user->save();
 
-            $lecturer->front_degree = $validatedData['gelar-depan'];
-            $lecturer->back_degree = $validatedData['gelar-belakang'];
-            $lecturer->position = $validatedData['jabatan'];
-            $lecturer->rank = $validatedData['pangkat'];
-            $lecturer->type = $validatedData['golongan'];
-            $lecturer->phone_number = $validatedData['no-hp'];
+            $dosen->front_degree = $validatedData['gelar-depan'];
+            $dosen->back_degree = $validatedData['gelar-belakang'];
+            $dosen->position = $validatedData['jabatan'];
+            $dosen->rank = $validatedData['pangkat'];
+            $dosen->type = $validatedData['golongan'];
+            $dosen->phone_number = $validatedData['no-hp'];
 
             if ($request->hasFile('foto')) {
-                $oldImagePath = 'public/images/profile-photo/' . $lecturer->user->photo;
+                $oldImagePath = 'public/images/profile-photo/' . $dosen->user->photo;
                 if (Storage::exists($oldImagePath)) {
                     Storage::delete($oldImagePath);
                 }
 
                 $file = $request->file('foto');
-                $fileName = time() . '_dosen_' . $lecturer->user->username . '.' . $file->getClientOriginalExtension();
+                $fileName = time() . '_dosen_' . $dosen->user->username . '.' . $file->getClientOriginalExtension();
 
                 $file->storeAs('public/images/profile-photo', $fileName);
 
-                $lecturer->user->photo = $fileName;
+                $dosen->user->photo = $fileName;
             }
 
-            $lecturer->save();
+            $dosen->save();
 
             DB::commit();
 
@@ -180,15 +180,20 @@ class LecturerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Lecturer $lecturer)
+    public function destroy(Lecturer $dosen)
     {
         DB::beginTransaction();
 
         try {
-            $lecturer->delete();
-            $lecturer->user->delete();
+            $dosen->delete();
+            $dosen->user->delete();
 
             DB::commit();
+
+            $oldImagePath = 'public/images/profile-photo/' . $dosen->user->foto;
+            if (Storage::exists($oldImagePath)) {
+                Storage::delete($oldImagePath);
+            }
 
             return redirect()->route('dashboard.lecturer.index')->with('toast_success', 'Lecturer deleted successfully.');
         } catch (\Exception $e) {

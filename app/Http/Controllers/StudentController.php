@@ -98,31 +98,31 @@ class StudentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Student $student): View
+    public function show(Student $mahasiswa): View
     {
         $title = 'Apakah anda yakin?';
         $text = 'Anda tidak akan bisa mengembalikannya!';
         confirmDelete($title, $text);
 
-        $guidances = Guidance::where('student_id', $student->id)->get();
+        $guidances = Guidance::where('student_id', $mahasiswa->id)->get();
 
-        return view('dashboard.student.show', compact('student', 'guidances'));
+        return view('dashboard.student.show', compact('mahasiswa', 'guidances'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Student $student): View
+    public function edit(Student $mahasiswa): View
     {
         $lecturers = Lecturer::all();
         $concentrations = ['rpl', 'multimedia', 'tkj'];
-        return view('dashboard.student.edit', compact('student', 'lecturers', 'concentrations'));
+        return view('dashboard.student.edit', compact('mahasiswa', 'lecturers', 'concentrations'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(StudentUpdateRequest $request, Student $student): RedirectResponse
+    public function update(StudentUpdateRequest $request, Student $mahasiswa): RedirectResponse
     {
         $validatedData = $request->validated();
 
@@ -130,40 +130,40 @@ class StudentController extends Controller
 
         try {
             if (isset($validatedData['nim'])) {
-                $student->user->username = $validatedData['nim'];
-                $student->nim = $validatedData['nim'];
-                $student->user->password = Hash::make($validatedData['nim']);
+                $mahasiswa->user->username = $validatedData['nim'];
+                $mahasiswa->nim = $validatedData['nim'];
+                $mahasiswa->user->password = Hash::make($validatedData['nim']);
             }
 
             if (isset($validatedData['email'])) {
-                $student->user->email = $validatedData['email'];
+                $mahasiswa->user->email = $validatedData['email'];
             }
 
             if ($request->hasFile('foto')) {
-                $oldImagePath = 'public/images/profile-photo/' . $student->user->photo;
+                $oldImagePath = 'public/images/profile-photo/' . $mahasiswa->user->photo;
                 if (Storage::exists($oldImagePath)) {
                     Storage::delete($oldImagePath);
                 }
 
                 $file = $request->file('foto');
-                $fileName = time() . '_mahasiswa_' . $student->user->username . '.' . $file->getClientOriginalExtension();
+                $fileName = time() . '_mahasiswa_' . $mahasiswa->user->username . '.' . $file->getClientOriginalExtension();
 
                 $file->storeAs('public/images/profile-photo', $fileName);
 
-                $student->user->photo = $fileName;
+                $mahasiswa->user->photo = $fileName;
             }
 
-            $student->user->name = $validatedData['fullname'];
-            $student->user->save();
+            $mahasiswa->user->name = $validatedData['fullname'];
+            $mahasiswa->user->save();
 
-            $student->lecturer_id_1 = $validatedData['lecturer_id_1'];
-            $student->lecturer_id_2 = $validatedData['lecturer_id_2'];
-            $student->batch = $validatedData['angkatan'];
-            $student->concentration = $validatedData['konsentrasi'];
-            $student->phone_number = $validatedData['no-hp'];
-            $student->address = $validatedData['alamat'];
+            $mahasiswa->lecturer_id_1 = $validatedData['lecturer_id_1'];
+            $mahasiswa->lecturer_id_2 = $validatedData['lecturer_id_2'];
+            $mahasiswa->batch = $validatedData['angkatan'];
+            $mahasiswa->concentration = $validatedData['konsentrasi'];
+            $mahasiswa->phone_number = $validatedData['no-hp'];
+            $mahasiswa->address = $validatedData['alamat'];
 
-            $student->save();
+            $mahasiswa->save();
 
             DB::commit();
             return redirect()->route('dashboard.student.index')->with('toast_success', 'Student updated successfully');
@@ -176,18 +176,18 @@ class StudentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Student $student): RedirectResponse
+    public function destroy(Student $mahasiswa): RedirectResponse
     {
         DB::beginTransaction();
 
         try {
-            $student->delete();
-            $student->user->delete();
+            $mahasiswa->delete();
+            $mahasiswa->user->delete();
 
             DB::commit();
 
             // delete foto
-            $oldImagePath = 'public/images/profile-photo/' . $student->foto;
+            $oldImagePath = 'public/images/profile-photo/' . $mahasiswa->user->foto;
             if (Storage::exists($oldImagePath)) {
                 Storage::delete($oldImagePath);
             }
