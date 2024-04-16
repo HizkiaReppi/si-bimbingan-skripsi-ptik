@@ -92,6 +92,12 @@
                     <div data-i18n="Bimbingan">Mahasiswa Bimbingan</div>
                 </a>
             </li>
+            <li class="menu-item {{ request()->routeIs('dashboard.pengajuan-ujian-mahasiswa.*') ? 'active' : '' }}">
+                <a href="{{ route('dashboard.pengajuan-ujian-mahasiswa.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons fa-solid fa-clipboard-list"></i>
+                    <div data-i18n="Bimbingan">Pengajuan Ujian Hasil Mahasiswa</div>
+                </a>
+            </li>
         @elsecan('HoD')
             <li class="menu-item {{ request()->routeIs('dashboard.aktivitas-bimbingan.*') ? 'active' : '' }}">
                 <a href="{{ route('dashboard.aktivitas-bimbingan.index') }}" class="menu-link">
@@ -112,6 +118,9 @@
                     <div data-i18n="Bimbingan">Dashboard</div>
                 </a>
             </li>
+            <li class="menu-header small text-uppercase">
+              <span class="menu-header-text">Manajemen Pengguna</span>
+            </li>
             <li class="menu-item {{ request()->routeIs('dashboard.lecturer.*') ? 'active' : '' }}">
                 <a href="{{ route('dashboard.lecturer.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons fa-solid fa-chalkboard-user"></i>
@@ -128,6 +137,15 @@
                 <a href="{{ route('dashboard.kajur.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons fa-solid fa-user-graduate"></i>
                     <div data-i18n="Kajur">Ketua Jurusan</div>
+                </a>
+            </li>
+            <li class="menu-header small text-uppercase">
+              <span class="menu-header-text">Manajemen Bimbingan</span>
+            </li>
+            <li class="menu-item {{ request()->routeIs('dashboard.pengajuan-ujian-mahasiswa.*') ? 'active' : '' }}">
+                <a href="{{ route('dashboard.pengajuan-ujian-mahasiswa.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons fa-solid fa-clipboard-list"></i>
+                    <div data-i18n="Bimbingan">Pengajuan Ujian Hasil Mahasiswa</div>
                 </a>
             </li>
         @endcan

@@ -11,7 +11,7 @@ class GuidedStudentController extends Controller
 {
     public function __construct()
     {
-        if (!Gate::allows('student')) {
+        if (!Gate::allows('lecturer')) {
             abort(403);
         }
     }

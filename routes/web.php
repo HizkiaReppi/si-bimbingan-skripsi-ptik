@@ -10,6 +10,7 @@ use App\Http\Controllers\LecturerController;
 use App\Http\Controllers\PrintExamApprovalController;
 use App\Http\Controllers\PrintGuidanceHistoryController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RequestExamResultController;
 use App\Http\Controllers\SetGuidanceController;
 use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
@@ -52,6 +53,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/mahasiswa-bimbingan', [GuidedStudentController::class, 'index'])->name('dashboard.mahasiswa-bimbingan.index');
     Route::get('/mahasiswa-bimbingan/{mahasiswa_bimbingan}', [GuidedStudentController::class, 'show'])->name('dashboard.mahasiswa-bimbingan.show');
+    
+    Route::get('/pengajuan-ujian-mahasiswa', [RequestExamResultController::class, 'index'])->name('dashboard.pengajuan-ujian-mahasiswa.index');
 
     Route::get('/atur-jadwal-bimbingan', [SetGuidanceController::class, 'index'])->name('dashboard.atur-jadwal-bimbingan.index');
     Route::get('/atur-jadwal-bimbingan/{atur_jadwal_bimbingan}', [SetGuidanceController::class, 'show'])->name('dashboard.atur-jadwal-bimbingan.show');
