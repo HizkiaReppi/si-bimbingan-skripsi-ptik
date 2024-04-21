@@ -4,16 +4,16 @@
     </x-slot>
 
     <div class="card">
-        <div class="d-flex justify-content-between align-items-center">
-            <h5 class="card-header">Bimbingan Dengan Dosen Pembimbing {{ auth()?->user()?->student?->secondSupervisorFullname }}</h5>
-            <div>
+        <div class="d-flex flex-column-reverse flex-md-row justify-content-between align-items-center">
+            <h5 class="card-header">Bimbingan Dengan Dosen Pembimbing <br /> {{ auth()?->user()?->student?->firstSupervisorFullname }}</h5>
+            <div class="mt-2 mt-md-0 ms-3 mt-md-0 ">
                 @if ($guidances)
-                <a href="{{ route('dashboard.bimbingan-2.print') }}" class="btn btn-secondary me-2">
+                <a href="{{ route('dashboard.bimbingan-1.print') }}" class="btn btn-secondary me-2 mt-1">
                     <i class="fa fa-print me-2"></i>
                     Cetak Kartu Bimbingan
                 </a>
                 @endif
-                <a href="{{ route('dashboard.bimbingan-2.create') }}" class="btn btn-primary me-4">Request Bimbingan</a>
+                <a href="{{ route('dashboard.bimbingan-1.create') }}" class="btn btn-primary me-4 mt-1">Request Bimbingan</a>
             </div>
         </div>
         <div class="table-responsive text-wrap px-4 pb-4">
