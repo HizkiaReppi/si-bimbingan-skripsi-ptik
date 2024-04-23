@@ -25,21 +25,19 @@ class SetGuidanceController extends Controller
     {
         $students = Student::where('lecturer_id_1', auth()->user()->lecturer->id)
             ->orWhere('lecturer_id_2', auth()->user()->lecturer->id)
+            ->with([
+                'firstSupervisor',
+                'secondSupervisor',
+                'guidance' => function ($query) {
+                    $query->with(['student', 'student.user']);
+                },
+            ])
             ->get();
 
         $guidances = [];
 
         foreach ($students as $student) {
-            $guidanceLecturer1 = Guidance::where('student_id', $student->id)
-                ->where('lecturer_id', $student->lecturer_id_1)
-                ->get();
-
-            $guidanceLecturer2 = Guidance::where('student_id', $student->id)
-                ->where('lecturer_id', $student->lecturer_id_2)
-                ->get();
-
-            $mergedGuidance = $guidanceLecturer1->merge($guidanceLecturer2);
-            $nonEmptyGuidances = $mergedGuidance->filter(fn ($guidance) => !is_null($guidance));
+            $nonEmptyGuidances = $student->guidance->filter(fn($guidance) => !is_null($guidance));
 
             if ($nonEmptyGuidances->isNotEmpty()) {
                 $guidances[$student->id] = $nonEmptyGuidances;

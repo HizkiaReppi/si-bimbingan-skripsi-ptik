@@ -23,14 +23,18 @@
                     <label for="judul-skripsi" class="form-label">Konsentrasi</label>
                     <p class="border p-2 rounded">{{ $aktivitas_bimbingan->student->concentration }}</p>
                 </div>
-                <div class="mb-3 col-md-12">
-                    <label for="judul-skripsi" class="form-label">Dosen Pembimbing</label>
-                    <p class="border p-2 rounded">{{ $aktivitas_bimbingan->student->supervisorFullname }}</p>
+                <div class="mb-3 col-md-6">
+                    <label for="judul-skripsi" class="form-label">Dosen Pembimbing I</label>
+                    <p class="border p-2 rounded">{{ $aktivitas_bimbingan->student->firstSupervisorFullname }}</p>
+                </div>
+                <div class="mb-3 col-md-6">
+                    <label for="judul-skripsi" class="form-label">Dosen Pembimbing II</label>
+                    <p class="border p-2 rounded">{{ $aktivitas_bimbingan->student->secondSupervisorFullname }}</p>
                 </div>
                 <hr class="border border-1">
                 <div class="mb-3">
                     <label for="judul-skripsi" class="form-label">Judul Skripsi</label>
-                    <p class="border p-2 rounded text-justify">{{ $aktivitas_bimbingan->thesis_title }}</p>
+                    <p class="border p-2 rounded text-justify">{{ $aktivitas_bimbingan->thesis->title }}</p>
                 </div>
                 <div class="mb-3 col-md-6">
                     <label for="schedule" class="form-label">Jadwal Bimbingan</label>
@@ -38,12 +42,10 @@
                 </div>
                 <div class="mb-3 col-md-6">
                     <label for="status" class="form-label">Status Request</label>
-                    @if ($aktivitas_bimbingan->status == 'pending')
+                    @if ($aktivitas_bimbingan->status_request == 'pending')
                         <p class="border p-2 rounded text-justify text-capitalize">Diajukan</p>
-                    @elseif ($aktivitas_bimbingan->status == 'approved')
+                    @elseif ($aktivitas_bimbingan->status_request == 'approved')
                         <p class="border p-2 rounded text-justify text-capitalize">Disetujui</p>
-                    @elseif ($aktivitas_bimbingan->status == 'rejected')
-                        <p class="border p-2 rounded text-justify text-capitalize">Ditolak</p>
                     @endif
                 </div>
                 <div class="mb-3">
@@ -62,7 +64,7 @@
                 </div>
                 <div class="mb-3 col-md-6">
                     <label for="thesis_file" class="form-label">File Skripsi</label>
-                    <a href="{{ asset('storage/file/skripsi/' . $aktivitas_bimbingan->thesis_file) }}" download=""
+                    <a href="{{ asset('storage/file/skripsi/' . $aktivitas_bimbingan->thesis->file) }}" download=""
                         class="d-block btn btn-primary">Download File</a>
                 </div>
                 <div class="mb-3 col-md-6">
@@ -98,15 +100,13 @@
                     @foreach ($guidances as $guidance)
                         <tr>
                             <td class="text-center">{{ $guidance->guidance_number }}</td>
-                            <td class="fw-medium" style="width: 50px">{{ $guidance->thesis_title }}</td>
+                            <td class="fw-medium" style="width: 50px">{{ $guidance->thesis->title }}</td>
                             <td class="fw-medium">{{ $guidance->topic }}</td>
                             <td class="text-center">{{ $guidance->schedule }}</td>
-                            @if ($guidance->status == 'pending')
+                            @if ($guidance->status_request == 'pending')
                                 <td class="text-center text-info text-capitalize">Diajukan</td>
-                            @elseif ($guidance->status == 'approved')
+                            @elseif ($guidance->status_request == 'approved')
                                 <td class="text-center text-success text-capitalize">Disetujui</td>
-                            @elseif ($guidance->status == 'rejected')
-                                <td class="text-center text-danger text-capitalize">Ditolak</td>
                             @endif
                             <td class="text-center">
                                 <div class="dropdown">

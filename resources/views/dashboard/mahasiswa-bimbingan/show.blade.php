@@ -46,7 +46,7 @@
                 </div>
                 <div class="mb-1">
                     <label for="judul-skripsi" class="form-label">Judul Skripsi</label>
-                    <p class="border p-2 rounded text-justify">{{ $mahasiswa_bimbingan->thesis_title }}</p>
+                    <p class="border p-2 rounded text-justify">{{ $mahasiswa_bimbingan->thesis->title }}</p>
                 </div>
                 <div class="mb-1">
                     <label for="alamat" class="form-label">Alamat</label>
@@ -108,12 +108,10 @@
                                 <td class="fw-medium" style="width: 50px">{{ $guidance->thesis->title }}</td>
                                 <td class="fw-medium">{{ $guidance->topic }}</td>
                                 <td class="text-center">{{ $guidance->schedule }}</td>
-                                @if ($guidance->status == 'pending')
+                                @if ($guidance->status_request == 'pending')
                                     <td class="text-center text-info text-capitalize">Diajukan</td>
-                                @elseif ($guidance->status == 'approved')
+                                @elseif ($guidance->status_request == 'approved')
                                     <td class="text-center text-success text-capitalize">Disetujui</td>
-                                @elseif ($guidance->status == 'rejected')
-                                    <td class="text-center text-danger text-capitalize">Ditolak</td>
                                 @endif
                                 <td class="text-center">
                                     <div class="dropdown">

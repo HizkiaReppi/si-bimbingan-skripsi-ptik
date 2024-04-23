@@ -21,7 +21,7 @@ class RequestExamResultController extends Controller
         $requestExams = null;
 
         if(auth()->user()->role =='admin') {
-            $requestExams = ExamResult::all();
+            $requestExams = ExamResult::with('student', 'student.user', 'thesis')->get();
         }
 
         if(auth()->user()->role =='lecturer') {
@@ -31,7 +31,7 @@ class RequestExamResultController extends Controller
                 ->orWhere('lecturer_id_2', $lecturer->id)
                 ->get();
 
-            $requestExams = ExamResult::whereIn('student_id', $students->pluck('id'))->get();
+            $requestExams = ExamResult::whereIn('student_id', $students->pluck('id'))->with('student', 'student.user', 'thesis')->get();
         }
 
         return view('dashboard.pengajuan-ujian-hasil-mahasiswa.index', compact('requestExams'));

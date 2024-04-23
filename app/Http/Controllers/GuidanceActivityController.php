@@ -22,7 +22,7 @@ class GuidanceActivityController extends Controller
      */
     public function index(): View
     {
-        $guidances = Guidance::latest()->take(50)->get();
+        $guidances = Guidance::latest()->with('student', 'lecturer', 'student.user', 'lecturer.user')->take(50)->get();
 
         return view('dashboard.aktivitas-bimbingan.index', compact('guidances'));
     }
@@ -32,7 +32,7 @@ class GuidanceActivityController extends Controller
      */
     public function show(Guidance $aktivitas_bimbingan): View
     {
-        $guidances = Guidance::where('student_id', $aktivitas_bimbingan->student->id)->get();
+        $guidances = Guidance::where('student_id', $aktivitas_bimbingan->student->id)->with('student', 'lecturer', 'thesis')->get();
         return view('dashboard.aktivitas-bimbingan.show', compact('aktivitas_bimbingan', 'guidances'));
     }
 
@@ -42,6 +42,9 @@ class GuidanceActivityController extends Controller
     public function edit(Guidance $aktivitas_bimbingan): View
     {
         $statuses = ['pending' => 'Diajukan', 'approved' => 'Setujui', 'rejected' => 'Tolak'];
+
+        $aktivitas_bimbingan->load('student', 'lecturer', 'thesis');
+
         return view('dashboard.aktivitas-bimbingan.edit', compact('aktivitas_bimbingan', 'statuses'));
     }
 

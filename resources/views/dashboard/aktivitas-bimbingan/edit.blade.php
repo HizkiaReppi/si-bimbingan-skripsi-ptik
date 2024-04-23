@@ -24,7 +24,7 @@
             <hr>
             <div class="mb-2">
                 <label for="judul-skripsi" class="form-label">Judul Skripsi</label>
-                <p class="border p-2 rounded text-justify">{{ $aktivitas_bimbingan->thesis_title }}</p>
+                <p class="border p-2 rounded text-justify">{{ $aktivitas_bimbingan->thesis->title }}</p>
             </div>
             <div class="mb-2">
                 <label for="topik" class="form-label">Topik Yang Dibicarakan</label>
@@ -74,7 +74,7 @@
                     </div>
                     <div class="mb-3 col-md-6">
                         <label for="thesis_file" class="form-label">File Skripsi</label>
-                        <a href="{{ asset('storage/file/skripsi/' . $aktivitas_bimbingan->thesis_file) }}"
+                        <a href="{{ asset('storage/file/skripsi/' . $aktivitas_bimbingan->thesis->file) }}"
                             download="" class="d-block btn btn-secondary">Download File</a>
                     </div>
                     <div class="mb-3 col-md-6">

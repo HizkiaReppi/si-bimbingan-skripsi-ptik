@@ -26,7 +26,7 @@
                             <td class="text-nowrap">{{ $student->fullname }}</td>
                             <td class="text-center">{{ $student->batch }}</td>
                             <td class="text-center">{{ $student->concentration }}</td>
-                            <td class="text-justify">{{ $student->thesisTitle }}</td>
+                            <td class="text-justify">{{ $student->thesis->title ?? 'Belum Ada Judul Skripsi' }}</td>
                             <td class="text-center">
                                 <a class="dropdown-item"
                                     href="{{ route('dashboard.mahasiswa-bimbingan.show', $student->id) }}">

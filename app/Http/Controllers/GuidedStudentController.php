@@ -23,6 +23,7 @@ class GuidedStudentController extends Controller
     {
         $students = Student::where('lecturer_id_1', auth()->user()->lecturer->id)
             ->orWhere('lecturer_id_2', auth()->user()->lecturer->id)
+            ->with(['guidance', 'user', 'thesis'])
             ->get();
 
         return view('dashboard.mahasiswa-bimbingan.index', compact('students'));
@@ -33,7 +34,7 @@ class GuidedStudentController extends Controller
      */
     public function show(Student $mahasiswa_bimbingan): View
     {
-        $guidances = Guidance::where('student_id', $mahasiswa_bimbingan->id)->get();
+        $guidances = Guidance::where('student_id', $mahasiswa_bimbingan->id)->with('thesis')->get();
         return view('dashboard.mahasiswa-bimbingan.show', compact('mahasiswa_bimbingan', 'guidances'));
     }
 }

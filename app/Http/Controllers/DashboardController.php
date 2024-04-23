@@ -21,10 +21,11 @@ class DashboardController extends Controller
             abort(403);
         }
 
+        $studentsWithTheses = Student::with('guidance', 'user', 'firstSupervisor', 'secondSupervisor')->has('guidance')->get();
+        
         $totalStudents = Student::count();
         $totalLecturers = Lecturer::count();
         $totalGuidances = Guidance::count();
-        $studentsWithTheses = Student::has('guidance')->get();
         $totalApprovedExamResults = ExamResult::where('status_request', 'approved')->count();
 
         return view('dashboard.index', compact('studentsWithTheses', 'totalStudents',  'totalLecturers', 'totalGuidances', 'totalApprovedExamResults'));

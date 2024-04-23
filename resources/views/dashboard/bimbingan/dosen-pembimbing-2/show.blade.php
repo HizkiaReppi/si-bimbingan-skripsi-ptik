@@ -41,7 +41,7 @@
                 </div>
                 <div class="mb-3 col-md-6">
                     <label for="thesis_file" class="form-label">File Skripsi</label>
-                    <a href="{{ asset('storage/file/skripsi/' . $bimbingan->thesis_file) }}" download=""
+                    <a href="{{ asset('storage/file/skripsi/' . $bimbingan->thesis->file) }}" download=""
                         class="d-block btn btn-primary">Download File</a>
                 </div>
                 <div class="mb-3 col-md-6">

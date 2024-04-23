@@ -40,7 +40,7 @@ class HeadOfDepartementController extends Controller
      */
     public function create(): View
     {
-        $lecturers = Lecturer::all();
+        $lecturers = Lecturer::with('user')->get();
         return view('dashboard.kajur.create', compact('lecturers'));
     }
 

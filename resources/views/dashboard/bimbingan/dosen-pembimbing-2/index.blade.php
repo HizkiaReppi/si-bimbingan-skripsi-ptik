@@ -5,7 +5,7 @@
 
     <div class="card">
         <div class="d-flex flex-column-reverse flex-md-row justify-content-between align-items-center">
-            <h5 class="card-header">Bimbingan Dengan Dosen Pembimbing <br /> {{ auth()?->user()?->student?->firstSupervisorFullname }}</h5>
+            <h5 class="card-header">Bimbingan Dengan Dosen Pembimbing <br /> {{ auth()?->user()?->student?->secondSupervisorFullname }}</h5>
             <div class="mt-2 mt-md-0 ms-3 mt-md-0 ">
                 @if ($guidances)
                 <a href="{{ route('dashboard.bimbingan-1.print') }}" class="btn btn-secondary me-2 mt-1">

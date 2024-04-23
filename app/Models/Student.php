@@ -18,16 +18,7 @@ class Student extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'user_id',
-        'lecturer_id',
-        'nim',
-        'batch',
-        'concentration',
-        'phone_number',
-        'address',
-        'photo',
-    ];
+    protected $fillable = ['user_id', 'lecturer_id', 'nim', 'batch', 'concentration', 'phone_number', 'address', 'photo'];
 
     /**
      * Get the user that owns the student.
@@ -76,7 +67,7 @@ class Student extends Model
         if ($this->firstSupervisor) {
             return $this->firstSupervisor->front_degree . ' ' . $this->firstSupervisor->user->name . ' ' . $this->firstSupervisor->back_degree;
         }
-        
+
         return 'Mahasiswa Belum Memiliki Dosen Pembimbing 1';
     }
 
@@ -88,7 +79,7 @@ class Student extends Model
         if ($this->secondSupervisor) {
             return $this->secondSupervisor->front_degree . ' ' . $this->secondSupervisor->user->name . ' ' . $this->secondSupervisor->back_degree;
         }
-        
+
         return 'Mahasiswa Belum Memiliki Dosen Pembimbing 2';
     }
 
@@ -97,12 +88,15 @@ class Student extends Model
      */
     public function getThesisTitleAttribute(): string
     {
-        $latestThesis = $this->thesis()->latest()->first();
+        // Menggunakan eager loading untuk memuat relasi thesis
+        $this->load('thesis');
 
-        if ($latestThesis) {
-            return $latestThesis->title;
+        // Memeriksa apakah mahasiswa memiliki skripsi
+        if ($this->relationLoaded('thesis') && $this->thesis) {
+            return $this->thesis->title;
         }
 
+        // Mengembalikan pesan jika mahasiswa tidak memiliki skripsi
         return 'Belum Ada Judul Skripsi';
     }
 

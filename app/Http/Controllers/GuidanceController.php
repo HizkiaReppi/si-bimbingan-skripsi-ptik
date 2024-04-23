@@ -34,14 +34,25 @@ class GuidanceController extends Controller
         $student = auth()->user()->student;
 
         if (request()->routeIs('dashboard.bimbingan-1.index')) {
-            $guidances = Guidance::where('student_id', $student->id)->where('lecturer_id', $student->firstSupervisor->id)->get();
+            $guidances = Guidance::where('student_id', $student->id)
+                ->with('thesis')
+                ->where('lecturer_id', $student->firstSupervisor->id)
+                ->get();
             return view('dashboard.bimbingan.dosen-pembimbing-1.index', compact('guidances'));
         } elseif (request()->routeIs('dashboard.bimbingan-2.index')) {
-            $guidances = Guidance::where('student_id', $student->id)->where('lecturer_id', $student->secondSupervisor->id)->get();
+            $guidances = Guidance::where('student_id', $student->id)
+                ->with('thesis')
+                ->where('lecturer_id', $student->secondSupervisor->id)
+                ->get();
             return view('dashboard.bimbingan.dosen-pembimbing-2.index', compact('guidances'));
         } else {
-            $guidances = Guidance::where('student_id', $student->id)->get();
-            $thesis = Thesis::where('student_id', $student->id)->latest()->first();
+            $guidances = Guidance::where('student_id', $student->id)
+                ->with('lecturer', 'thesis')
+                ->get();
+
+            $thesis = Thesis::where('student_id', $student->id)
+                ->latest()
+                ->first();
 
             $totalGuidance1 = Guidance::where('student_id', $student->id)
                 ->where('lecturer_id', $student->firstSupervisor->id)
@@ -59,12 +70,9 @@ class GuidanceController extends Controller
             if ($thesis) {
                 $examResult = ExamResult::where('student_id', $student->id)
                     ->where('thesis_id', $thesis->id)
+                    ->with('thesis')
                     ->first();
             }
-
-            $title = 'Apakah anda yakin?';
-            $text = 'Data pengajuan ujian Anda akan dihapus!';
-            confirmDelete($title, $text);
 
             return view('dashboard.bimbingan.index', compact('guidances', 'latestGuidance', 'thesis', 'totalGuidance1', 'totalGuidance2', 'examResult'));
         }
@@ -268,7 +276,7 @@ class GuidanceController extends Controller
         if ($bimbingan->status_request !== 'pending') {
             abort(403);
         }
-        
+
         DB::beginTransaction();
 
         try {

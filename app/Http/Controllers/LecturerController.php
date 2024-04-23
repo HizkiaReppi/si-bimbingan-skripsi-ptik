@@ -32,7 +32,7 @@ class LecturerController extends Controller
         $text = 'Anda tidak akan bisa mengembalikannya!';
         confirmDelete($title, $text);
 
-        $lecturers = Lecturer::all();
+        $lecturers = Lecturer::with('user')->get();
         return view('dashboard.lecturer.index', compact('lecturers'));
     }
 
@@ -103,9 +103,11 @@ class LecturerController extends Controller
         $text = 'Anda tidak akan bisa mengembalikannya!';
         confirmDelete($title, $text);
 
+        
         $students = Student::where('lecturer_id_1', $dosen->id)
-            ->orWhere('lecturer_id_2', $dosen->id)
-            ->get();
+        ->orWhere('lecturer_id_2', $dosen->id)
+        ->with('user')
+        ->get();
 
         return view('dashboard.lecturer.show', compact('dosen', 'students'));
     }

@@ -21,8 +21,17 @@ class ExamResultController extends Controller
             abort(403);
         }
 
-        $requestExams = ExamResult::where('status_request', 'pending')->latest()->take(50)->get();
-        $approvedExams = ExamResult::where('status_request', 'approved')->latest()->take(50)->get();
+        $requestExams = ExamResult::with(['student', 'student.user', 'student.firstSupervisor.user', 'student.secondSupervisor.user', 'thesis', 'guidance'])
+            ->where('status_request', 'pending')
+            ->latest()
+            ->take(50)
+            ->get();
+
+        $approvedExams = ExamResult::with(['student', 'student.user', 'student.firstSupervisor.user', 'student.secondSupervisor.user', 'thesis', 'guidance'])
+            ->where('status_request', 'approved')
+            ->latest()
+            ->take(50)
+            ->get();
 
         return view('dashboard.ujian-hasil.index', compact('requestExams', 'approvedExams'));
     }
@@ -65,6 +74,8 @@ class ExamResultController extends Controller
         if (!Gate::allows('HoD')) {
             abort(403);
         }
+
+        $ujian->load('student', 'thesis', 'guidance');
 
         return view('dashboard.ujian-hasil.show', compact('ujian'));
     }

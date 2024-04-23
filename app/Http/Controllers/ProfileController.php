@@ -28,11 +28,11 @@ class ProfileController extends Controller
         if ($request->user()->role == 'admin') {
             $user = $request->user();
         } else if ($request->user()->role == 'student') {
-            $user = Student::where('user_id', $request->user()->id)->first();
+            $user = Student::where('user_id', $request->user()->id)->with('user')->first();
         } else if ($request->user()->role == 'lecturer') {
-            $user = Lecturer::where('user_id', $request->user()->id)->first();
+            $user = Lecturer::where('user_id', $request->user()->id)->with('user')->first();
         } else if ($request->user()->role == 'HoD') {
-            $user = HeadOfDepartement::where('user_id', $request->user()->id)->first();
+            $user = HeadOfDepartement::where('user_id', $request->user()->id)->with('user')->first();
         }
 
         return view('profile.edit', compact('user'));

@@ -33,7 +33,7 @@ class StudentController extends Controller
         $text = 'Anda tidak akan bisa mengembalikannya!';
         confirmDelete($title, $text);
 
-        $students = Student::all();
+        $students = Student::with('user', 'firstSupervisor', 'secondSupervisor', 'firstSupervisor.user', 'secondSupervisor.user')->get();
         return view('dashboard.student.index', compact('students'));
     }
 
@@ -104,7 +104,7 @@ class StudentController extends Controller
         $text = 'Anda tidak akan bisa mengembalikannya!';
         confirmDelete($title, $text);
 
-        $guidances = Guidance::where('student_id', $mahasiswa->id)->get();
+        $guidances = Guidance::where('student_id', $mahasiswa->id)->with('thesis', 'lecturer', 'lecturer.user')->get();
 
         return view('dashboard.student.show', compact('mahasiswa', 'guidances'));
     }
@@ -114,7 +114,7 @@ class StudentController extends Controller
      */
     public function edit(Student $mahasiswa): View
     {
-        $lecturers = Lecturer::all();
+        $lecturers = Lecturer::with('user')->get();
         $concentrations = ['rpl', 'multimedia', 'tkj'];
         return view('dashboard.student.edit', compact('mahasiswa', 'lecturers', 'concentrations'));
     }
