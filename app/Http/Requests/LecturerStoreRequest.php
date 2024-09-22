@@ -25,8 +25,8 @@ class LecturerStoreRequest extends FormRequest
     {
         return [
             'fullname' => ['required', 'string', 'max:255', 'min:2', 'regex:/^[a-zA-Z\s]*$/'],
-            'nidn' => ['required', 'integer', 'digits:10', 'unique:' . Lecturer::class, 'regex:/^[0-9]*$/'],
-            'nip' => ['required', 'integer', 'digits:18', 'unique:' . Lecturer::class, 'regex:/^[0-9]*$/'],
+            'nidn' => ['required', 'string', 'min:10', 'max:10', 'unique:' . Lecturer::class, 'regex:/^[0-9]*$/'],
+            'nip' => ['required', 'string', 'min:18', 'max:18', 'unique:' . Lecturer::class, 'regex:/^[0-9]*$/'],
             'email' => ['required', 'string', 'email',  'max:255', 'min:5', 'unique:' . User::class],
             'gelar-depan' => ['nullable', 'string', 'max:50', 'regex:/^[\pL\s.,]+$/u'],
             'gelar-belakang' => ['nullable', 'string', 'max:50', 'regex:/^[\pL\s.,]+$/u'],

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Lecturer;
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
 class LecturerUpdateRequest extends FormRequest
@@ -22,6 +23,10 @@ class LecturerUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+        $isNIDNExist = Lecturer::where('nidn', $this->nidn)->exists();
+        $isEmailExist = User::where('email', $this->email)->exists();
+        $isNIPExist = Lecturer::where('nip', $this->nip)->exists();
+        
         $rules = [
             'fullname' => ['required', 'string', 'max:255', 'min:2', 'regex:/^[a-zA-Z\s]*$/'],
             'gelar-depan' => ['nullable', 'string', 'max:50', 'regex:/^[\pL\s.,]+$/u'],
@@ -32,16 +37,16 @@ class LecturerUpdateRequest extends FormRequest
             'no-hp' => ['nullable', 'string', 'min:9', 'max:20', 'regex:/^08[0-9]*$/'],
         ];
 
-        if($this->nidn != $this->lecturer->nidn) {
-            $rules['nidn'] = ['required', 'integer', 'digits:10', 'unique:' . Lecturer::class, 'regex:/^[0-9]*$/'];
+        if($this->nidn && !$isNIDNExist) {
+            $rules['nidn'] = ['required', 'string', 'min:10', 'max:10', 'unique:' . Lecturer::class, 'regex:/^[0-9]*$/'];
         }
 
-        if($this->email != $this->lecturer->user->email) {
+        if($this->email && !$isEmailExist) {
             $rules['email'] = ['required', 'string', 'email', 'max:255', 'min:4', 'unique:' . Lecturer::class];
         }
 
-        if($this->nip != $this->lecturer->nip) {
-            $rules['nip'] = ['required', 'integer', 'digits:18','unique:' . Lecturer::class, 'regex:/^[0-9]*$/'];
+        if($this->nip && !$isNIPExist) {
+            $rules['nip'] = ['required', 'string', 'min:18', 'max:18', 'unique:' . Lecturer::class, 'regex:/^[0-9]*$/'];
         }
 
         return $rules;
