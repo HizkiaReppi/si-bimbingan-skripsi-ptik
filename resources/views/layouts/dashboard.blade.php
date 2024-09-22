@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
+@php
+    $baseUrl = config('app.url');
+
+    $baseUrl = explode('://', $baseUrl)[1];
+
+    if (request()->secure()) {
+        $baseUrl = 'https://' . $baseUrl;
+    } else {
+        $baseUrl = 'http://' . $baseUrl;
+    }
+@endphp
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,8 +28,14 @@
         href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
         rel="stylesheet" />
 
-    @vite(['resources/vendor/fonts/boxicons.css', 'resources/css/demo.css', 'resources/vendor/css/core.css', 'resources/vendor/css/theme-default.css', 'resources/vendor/js/helpers.js', 'resources/js/config.js'])
+    <link rel="stylesheet" href="{{ $baseUrl }}/assets/vendor/fonts/boxicons.css">
+    <link rel="stylesheet" href="{{ $baseUrl }}/assets/css/demo.css">
+    <link rel="stylesheet" href="{{ $baseUrl }}/assets/vendor/css/core.css">
+    <link rel="stylesheet" href="{{ $baseUrl }}/assets/vendor/css/theme-default.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.dataTables.css">
+    <script src="{{ $baseUrl }}/assets/vendor/js/helpers.js"></script>
+    <script src="{{ $baseUrl }}/assets/js/config.js"></script>
+    <script src="{{ $baseUrl }}/assets/vendor/libs/jquery/jquery.js"></script>
     <script src="https://kit.fontawesome.com/29057e6c17.js" crossorigin="anonymous"></script>
 </head>
 
@@ -107,9 +125,14 @@
 
     @include('sweetalert::alert')
 
-    @vite(['resources/vendor/libs/jquery/jquery.js', 'resources/vendor/libs/popper/popper.js', 'resources/vendor/js/bootstrap.js', 'resources/vendor/libs/perfect-scrollbar/perfect-scrollbar.js', 'resources/vendor/js/menu.js', 'resources/vendor/libs/apex-charts/apexcharts.js', 'resources/js/main.js', 'resources/js/app.js'])
+    <script src="{{ $baseUrl }}/assets/vendor/libs/popper/popper.js"></script>
+    <script src="{{ $baseUrl }}/assets/vendor/js/bootstrap.js"></script>
+    <script src="{{ $baseUrl }}/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="{{ $baseUrl }}/assets/vendor/js/menu.js"></script>
+    <script src="{{ $baseUrl }}/assets/vendor/libs/apex-charts/apexcharts.js"></script>
+    <script src="{{ $baseUrl }}/assets/js/main.js"></script>
+    <script src="{{ $baseUrl }}/assets/js/app.js"></script>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
 
     <script>
