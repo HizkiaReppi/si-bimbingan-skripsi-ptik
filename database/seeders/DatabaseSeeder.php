@@ -21,11 +21,11 @@ class DatabaseSeeder extends Seeder
 
         User::factory()->create([
             'id' => Str::uuid(),
-            'name' => 'Admin',
-            'username' => 'admin',
-            'email' => 'admin@gmail.com',
+            'name' => env('ADMIN_NAME'),
+            'username' => env('ADMIN_USERNAME'),
+            'email' => env('ADMIN_EMAIL'),
             'role' => 'admin',
-            'password' => bcrypt('admin'),
+            'password' => bcrypt(env('ADMIN_PASSWORD')),
         ]);
 
         // Seeder untuk 10 data user dan dosen
