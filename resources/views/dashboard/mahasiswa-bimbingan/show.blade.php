@@ -46,7 +46,7 @@
                 </div>
                 <div class="mb-1">
                     <label for="judul-skripsi" class="form-label">Judul Skripsi</label>
-                    <p class="border p-2 rounded text-justify">{{ $mahasiswa_bimbingan->thesis->title }}</p>
+                    <p class="border p-2 rounded text-justify">{{ $mahasiswa_bimbingan->thesis->title ?? 'Belum Ada Judul Skripsi' }}</p>
                 </div>
                 <div class="mb-1">
                     <label for="alamat" class="form-label">Alamat</label>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SetGuidanceUpdateRequest;
 use App\Models\Guidance;
+use App\Models\Thesis;
 use App\Models\Student;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -23,13 +24,17 @@ class SetGuidanceController extends Controller
      */
     public function index(): View
     {
-        $students = Student::where('lecturer_id_1', auth()->user()->lecturer->id)
-            ->orWhere('lecturer_id_2', auth()->user()->lecturer->id)
+        $lecturerId = auth()->user()->lecturer->id;
+
+        $students = Student::where('lecturer_id_1', $lecturerId)
+            ->orWhere('lecturer_id_2', $lecturerId)
             ->with([
                 'firstSupervisor',
                 'secondSupervisor',
-                'guidance' => function ($query) {
-                    $query->with(['student', 'student.user']);
+                'guidance' => function ($query) use ($lecturerId) {
+                    $query->where(function ($q) use ($lecturerId) {
+                        $q->where('lecturer_id', $lecturerId);
+                    })->with(['student', 'student.user']);
                 },
             ])
             ->get();
@@ -46,6 +51,7 @@ class SetGuidanceController extends Controller
 
         return view('dashboard.atur-jadwal-bimbingan.index', compact('guidances'));
     }
+
 
     /**
      * Display the specified resource.
@@ -77,6 +83,15 @@ class SetGuidanceController extends Controller
                 $fileName = time() . '-' . $atur_jadwal_bimbingan->student->nim . '.' . $file->getClientOriginalExtension();
                 $file->storeAs('public/file/skripsi/review', $fileName);
                 $atur_jadwal_bimbingan->thesis_file_review = $fileName;
+            }
+
+            if($atur_jadwal_bimbingan->guidance_number >= 6 && $validatedData['status_request'] == 'approved') {
+                $lecture = $atur_jadwal_bimbingan->student->firstSupervisor->id == auth()->user()->lecturer->id ? 'approval_lecturer_1' : 'approval_lecturer_2';
+
+                $thesis = Thesis::where('student_id', $atur_jadwal_bimbingan->student_id)->latest()->first();
+
+                $thesis->$lecture = 'approved';
+                $thesis->save();
             }
 
             $atur_jadwal_bimbingan->save();

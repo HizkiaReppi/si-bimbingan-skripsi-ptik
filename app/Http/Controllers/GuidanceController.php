@@ -120,7 +120,22 @@ class GuidanceController extends Controller
 
             $bimbingan = new Guidance();
 
-            if ($latestThesis && $latestThesis->title != $validatedData['judul-skripsi']) {
+            if (!$latestThesis) {
+                $thesis = new Thesis();
+                $thesis->student_id = $student->id;
+                $thesis->title = $validatedData['judul-skripsi'];
+
+                if ($request->hasFile('file-skripsi')) {
+                    $file = $request->file('file-skripsi');
+                    $fileName = time() . '-' . $student->nim . '.' . $file->getClientOriginalExtension();
+                    $file->storeAs('public/file/skripsi', $fileName);
+                    $thesis->file = $fileName;
+                }
+
+                $thesis->save();
+
+                $bimbingan->thesis_id = $thesis->id;
+            } else if ($latestThesis && $latestThesis->title != $validatedData['judul-skripsi']) {
                 $thesis = new Thesis();
                 $thesis->student_id = $student->id;
                 $thesis->title = $validatedData['judul-skripsi'];
