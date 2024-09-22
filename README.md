@@ -11,25 +11,25 @@ Sistem Informasi Bimbingan Skripsi adalah sebuah sistem informasi yang digunakan
     - Mengubah jadwal bimbingan skripsi
     - Melihat jadwal bimbingan skripsi
     - Melihat catatan hasil review skripsi
-    - Mengajukan permintaan ujian hasil (proses pengembangan)
-    - Cetak surat persetujuan ujian (proses pengembangan)
+    - Mengajukan permintaan ujian hasil
+    - Cetak surat persetujuan ujian
 2. Dosen Pembimbing
     - Menyetujui atau menolak jadwal bimbingan skripsi
     - Memberikan catatan dan upload file hasil review skripsi
     - Melihat catatan bimbingan skripsi
-    - Menyetujui atau menolak permintaan ujian hasil (proses pengembangan)
+    - Menyetujui atau menolak permintaan ujian hasil
 3. Ketua Jurusan
     - Melihat aktivitas bimbingan skripsi
-    - Menyetujui atau menolak permintaan ujian hasil (proses pengembangan)
+    - Menyetujui atau menolak permintaan ujian hasil
 4. Admin
     - Manajemen Dosen
     - Manajemen Mahasiswa
     - Manajemen Ketua Jurusan
-    - Manajemen Bimbingan (proses pengembangan)
-    - Manajemen Ujian Hasil (proses pengembangan)
+    - Manajemen Bimbingan
+    - Manajemen Ujian Hasil
 5. Lainnya
-    - Lupa & Reset Password (proses pengembangan)
-    - Edit Profile (proses pengembangan)
+    - Lupa & Reset Password
+    - Edit Profile
 
 ## Cara Penggunaan
 
@@ -100,7 +100,5 @@ $ npm run dev
 ```
 
 11. Buka browser dan akses `http://localhost:8000`
-
-_***Catatan Kecil: Banyak Aset Bawaan Dari Template Dashboard dan Breeze Yang Tidak Digunakan Tapi Masih Tersimpan, Akan Diperbaiki Semua Saat MVP Selesai.***_
 
 Create By Hizkia Reppi
